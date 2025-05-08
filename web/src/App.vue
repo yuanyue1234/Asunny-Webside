@@ -5,5 +5,6 @@ import lyb from './components/lyb.vue'
 <template>
   <Index>
     <lyb />
+    
   </Index>
 </template>

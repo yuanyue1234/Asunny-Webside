@@ -5,5 +5,5 @@ from .models import lyb
 class LybSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = lyb
-        # fields = ['title', 'author', 'counter', 'posttime']
+        # fields = ['title', 'author', 'content', 'posttime']
         fields = '__all__'

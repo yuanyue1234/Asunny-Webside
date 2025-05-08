@@ -5,7 +5,7 @@ from django.db import models
 class lyb(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
-    counter = models.TextField()
+    content = models.TextField()
     posttime = models.DateTimeField(auto_now_add=True)
 
     class Meta:
