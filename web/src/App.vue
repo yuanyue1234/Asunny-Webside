@@ -1,10 +1,39 @@
 <script setup>
-import lyb from './components/lyb.vue'
+import { ref } from 'vue'
+import ProfileSection from '@/components/ProfileSection.vue'
+import { profileData } from '@/data/profile'
+import { navItems } from '@/data/nav'
+
+// 引入外部CSS和JS
+import '@/assets/styles.css'
+import '@/assets/scripts.js'
 </script>
 
+<style>
+
+</style>
 <template>
-  <Index>
-    <lyb />
-    
-  </Index>
+  <div>
+    <header>
+      <div class="container header-content">
+        <h1><a href="App.vue">ASUNNY</a></h1>
+        <button class="theme-toggle" aria-label="Toggle dark mode">
+          <i class="material-icons">light_mode</i>
+        </button>
+      </div>
+    </header>
+
+    <nav>
+      <a v-for="item in navItems" :key="item.url" :href="item.url">{{ item.text }}</a>
+    </nav>
+
+    <div class="sidebar">
+      <div id="toc"></div>
+    </div>
+
+    <div class="container">
+      <ProfileSection :profile="profileData" />
+    </div>
+
+  </div>
 </template>
