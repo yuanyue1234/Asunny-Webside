@@ -10,6 +10,31 @@ const lyb_blank = {
   content: ''
 }
 
+// 展开状态管理
+const expandedRows = ref(new Set())
+
+// 切换展开状态
+const toggleExpand = (index) => {
+  if (expandedRows.value.has(index)) {
+    expandedRows.value.delete(index)
+  } else {
+    expandedRows.value.add(index)
+  }
+}
+
+// 检查内容是否需要展开按钮
+const needsExpand = (content) => {
+  return content.length > 100
+}
+
+// 获取显示的内容
+const getDisplayContent = (content, index) => {
+  if (expandedRows.value.has(index)) {
+    return content
+  }
+  return content.length > 100 ? content.slice(0, 100) + '...' : content
+}
+
 // 编辑留言
 const editLyb = (item) => {
   state.lyb.url = item.url;
@@ -72,63 +97,74 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="row">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-header">
+  <div class="profile">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="profile-header">
           <h5 class="mb-0"><i class="fas fa-comments"></i> 留言列表</h5>
         </div>
-        <div class="card-body">
-          <table class="table">
-            <thead>
-              <tr>
-                <th><i class="fas fa-heading"></i> 标题</th>
-                <th><i class="fas fa-user"></i> 作者</th>
-                <th><i class="fas fa-file-alt"></i> 内容</th>
-                <th><i class="fas fa-cogs"></i> 操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in state.ly_list" :key="index">
-                <td>{{ item.title }}</td>
-                <td>{{ item.author }}</td>
-                <td>{{ item.content }}</td>
-                <td>
-                  <button class="btn btn-sm me-2" title="编辑" @click="editLyb(item)">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button class="btn btn-sm" title="删除" @click="deletelyb(item)">
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="showcase">
+          <div class="showcase-item">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>标题</th>
+                  <th>作者</th>
+                  <th>内容</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, index) in state.ly_list" :key="index">
+                  <td>{{ item.title }}</td>
+                  <td>{{ item.author }}</td>
+                  <td>
+                    <div class="content-cell">
+                      {{ getDisplayContent(item.content, index) }}
+                      <button v-if="needsExpand(item.content)" 
+                              class="btn btn-link btn-sm expand-btn" 
+                              @click="toggleExpand(index)">
+                        {{ expandedRows.has(index) ? '收起' : '展开' }}
+                      </button>
+                    </div>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm me-2" title="编辑" @click="editLyb(item)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm" title="删除" @click="deletelyb(item)">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="mb-0"><i class="fas fa-edit"></i> 留言表单</h5>
-        </div>
-        <div class="card-body">
-          <input type="hidden" v-model="state.lyb.url">
-          <div class="form-group">
-            <label><i class="fas fa-heading"></i> 标题</label>
-            <input type="text" id="title" class="form-control" v-model="state.lyb.title" required>
+      <div class="col-md-4">
+        <div class="showcase">
+          <div class="showcase-item">
+            <div class="showcase-title">添加留言</div>
+            <div class="showcase-content">
+              <input type="hidden" v-model="state.lyb.url">
+              <div class="form-group">
+                <label><i class="fas fa-heading"></i> 标题</label>
+                <input type="text" id="title" class="form-control" v-model="state.lyb.title" placeholder="请输入标题" required>
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-user"></i> 用户名</label>
+                <input type="text" id="anthor" class="form-control" v-model="state.lyb.author" placeholder="请输入您的用户名" required>
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-file-alt"></i> 内容</label>
+                <textarea class="form-control" id="content" v-model="state.lyb.content" rows="6" style="min-height: 100px; resize: vertical;" placeholder="请输入留言内容" required></textarea>
+              </div>
+              <button type="submit" class="btn w-100" @click="savelyb">
+                <i class="fas fa-paper-plane"></i> 提交
+              </button>
+            </div>
           </div>
-          <div class="form-group">
-            <label><i class="fas fa-user"></i> 作者</label>
-            <input type="text" id="anthor" class="form-control" v-model="state.lyb.author" required>
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-file-alt"></i> 内容</label>
-            <textarea class="form-control" id="content" v-model="state.lyb.content" rows="4" required></textarea>
-          </div>
-          <button type="submit" class="btn w-100" @click="savelyb">
-            <i class="fas fa-paper-plane"></i> 提交
-          </button>
         </div>
       </div>
     </div>
@@ -136,5 +172,153 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.showcase {
+  display: grid;
+  gap: 20px;
+  margin-bottom: 30px;
+}
 
+.showcase-item {
+  background-color: var(--md-sys-color-surface);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.showcase-title {
+  font-size: 1.2em;
+  font-weight: 500;
+  margin-bottom: 15px;
+  color: var(--md-sys-color-on-surface);
+}
+
+.table {
+  width: 100%;
+  color: var(--md-sys-color-on-surface);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table thead th {
+  background-color: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  padding: 12px;
+  text-align: left;
+  font-weight: 500;
+}
+
+.table tbody td {
+  padding: 12px;
+  vertical-align: top;
+}
+
+.table tbody td:nth-child(1) {
+  width: 20%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table tbody td:nth-child(2) {
+  width: 15%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table tbody td:nth-child(3) {
+  width: 55%;
+}
+
+.table tbody td:nth-child(4) {
+  width: 10%;
+  white-space: nowrap;
+}
+
+.content-cell {
+  position: relative;
+  word-break: break-word;
+}
+
+.expand-btn {
+  padding: 0;
+  margin-left: 8px;
+  color: var(--md-sys-color-primary);
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+.expand-btn:hover {
+  color: var(--md-sys-color-primary-container);
+  text-decoration: underline;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-control {
+  background-color: var(--md-sys-color-surface);
+  border: 1px solid var(--md-sys-color-outline);
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control:focus {
+  border-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 2px var(--md-sys-color-primary-container);
+}
+
+.btn {
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn:hover {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-sm {
+  padding: 8px;
+  border-radius: 4px;
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+.btn-sm:hover {
+  background-color: var(--md-sys-color-secondary);
+  color: var(--md-sys-color-on-secondary);
+}
+
+.row {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-md-8 {
+  flex: 0 0 66.666667%;
+  max-width: 66.666667%;
+  padding: 0 15px;
+}
+
+.col-md-4 {
+  flex: 0 0 33.333333%;
+  max-width: 33.333333%;
+  padding: 0 15px;
+}
+
+@media (max-width: 768px) {
+  .col-md-8, .col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
 </style>

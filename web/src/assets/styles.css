@@ -139,7 +139,7 @@ nav a:hover,
 
 .profile {
     padding: 20px 0;
-    marrgin_bottom: 0px;
+    /* marrgin_bottom: 0px; */
 }
 
 .profile-header {
@@ -249,7 +249,7 @@ nav a:hover,
 }
 
 .profile-info {
-    margin-top: 40px;
+    margin-top: 28px;
     margin-right: 10px;
     margin-left: 10px;
     background-color: var(--md-sys-color-surface);
@@ -446,16 +446,6 @@ nav a:hover,
     color: #1890ff;
 }
 
-/* 修改h3标题样式 */
-h3 {
-    color: var(--md-sys-color-primary);
-    font-size: 1.5rem;
-    margin: 2rem 1rem 1rem;
-    padding-bottom: 0.8rem;
-    border-bottom: 2px solid var(--md-sys-color-primary-container);
-    font-weight: 500;
-}
-
 /* 修改showcase-title样式 */
 .showcase-title {
     font-size: 1.2rem;
@@ -469,14 +459,17 @@ h3 {
 
 /* 优化showcase-item样式 */
 .showcase-item {
-    padding: 20px;
-    margin-bottom: 1.5rem;
-    padding: 1.5rem;
+    padding: 20px 20px 0px 20px;
+    /* margin-bottom: 1.5rem; */
+    /* padding: 1.5rem; */
     border-radius: 12px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
     background-color: var(--md-sys-color-surface);
-    /* box-shadow: 4px 2px 0px rgba(0, 0, 0, 0.1); */
+    
+}
+hr{
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.1);
 }
 
 /* 修改侧边栏样式为书签风格 */

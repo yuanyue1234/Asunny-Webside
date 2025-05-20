@@ -9,7 +9,8 @@
       </div>
       <img class="avatar" :src="profile.avatar" :alt="profile.name">
     </div>
-
+  
+  
     <div class="profile-info">
       <div class="name">
         {{ profile.name }}
@@ -34,13 +35,12 @@
         </center>
       </div>
     </div>
-
-    <h2>兴趣</h2>
+  </div>
+    <div  class="profile">
     <div class="showcase">
       <div v-for="interest in profile.interests" 
            :key="interest.title" 
            class="showcase-item">
-        <h3>{{ interest.title }}</h3>
         <div class="showcase-title">{{ interest.subtitle }}</div>
         <div class="showcase-content">
           <img v-for="img in interest.images" 
@@ -48,10 +48,9 @@
                :src="img"
                class="clickable">
         </div>
+        <hr>
       </div>
     </div>
-
-    <h2>作品</h2>
     <div class="showcase">
       <div v-for="work in profile.works" 
            :key="work.title" 
@@ -62,13 +61,13 @@
             <a :href="item.url">{{ item.text }}</a>
           </p>
         </div>
+        <hr>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
 defineProps({
   profile: {
     type: Object,
