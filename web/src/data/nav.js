@@ -1,3 +1,5 @@
+import login from '@/components/login.vue'
+
 export const navItems = [
   {
     text: '我的网盘',
@@ -6,5 +8,9 @@ export const navItems = [
   {
     text: '我的博客',
     url: '##'
+  },
+  {
+    text: '登录',
+    url: "/login"
   },
 ] 

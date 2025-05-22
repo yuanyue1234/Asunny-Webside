@@ -2,7 +2,8 @@
 cd web && npm run dev
 
 启动后端：
-cd myproject &&
+cd myproject/ 
+ 
 python manage.py runserver
 
 

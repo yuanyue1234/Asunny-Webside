@@ -271,8 +271,8 @@ onMounted(() => {
 }
 
 .btn {
-  background-color: var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
   border: none;
   border-radius: 8px;
   padding: 12px 24px;
@@ -280,9 +280,8 @@ onMounted(() => {
 }
 
 .btn:hover {
-  background-color: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
-
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
