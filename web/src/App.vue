@@ -1,9 +1,8 @@
 <script setup>
-import { ref } from 'vue'
-import ProfileSection from '@/components/ProfileSection.vue'
-import { profileData } from '@/data/profile'
-import { navItems } from '@/data/nav'
-import lyb from '@/components/lyb.vue'
+import PageHead from '@/components/PageHead/index.vue'
+import PageMain from '@/components/PageMain/index.vue'
+import PageFooter from '@/components/PageFooter/index.vue'
+
 
 // 引入外部CSS和JS
 import '@/assets/styles.css'
@@ -13,22 +12,15 @@ import '@/assets/scripts.js'
 <style>
 
 </style>
+
 <template>
-  <div>
-    <header>
-      <div class="container header-content">
-        <h1><a href="/">ASUNNY</a></h1>
-        <button class="theme-toggle" aria-label="Toggle dark mode">
-          <i class="material-icons">light_mode</i>
-        </button>
-      </div>
-    </header>
+  <div class="app-container">
+    <div class="profile">
+      <PageHead />
+      <router-view></router-view> 
+      <PageMain />
+      <PageFooter />
+    </div>
 
-    <nav>
-      <a v-for="item in navItems" :key="item.url" :href="item.url">{{ item.text }}</a>
-    </nav>
-
-    <router-view></router-view> 
-    
   </div>
 </template>

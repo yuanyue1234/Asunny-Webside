@@ -97,12 +97,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="profile">
+
     <div class="row">
       <div class="col-md-8">
-        <div class="profile-header">
-          <h5 class="mb-0"><i class="fas fa-comments"></i> 留言列表</h5>
-        </div>
         <div class="showcase">
           <div class="showcase-item">
             <table class="table">
@@ -168,28 +165,9 @@ onMounted(() => {
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
-.showcase {
-  display: grid;
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
-.showcase-item {
-  background-color: var(--md-sys-color-surface);
-  border-radius: 16px;
-  padding: 20px;
-}
-
-.showcase-title {
-  font-size: 1.2em;
-  font-weight: 500;
-  margin-bottom: 15px;
-  color: var(--md-sys-color-on-surface);
-}
 
 .table {
   width: 100%;
@@ -258,9 +236,8 @@ onMounted(() => {
 
 .form-control {
   background-color: var(--md-sys-color-surface);
-  border: 1px solid var(--md-sys-color-outline);
   border-radius: 8px;
-  padding: 12px;
+  padding: 8px;
   width: 100%;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
@@ -271,8 +248,8 @@ onMounted(() => {
 }
 
 .btn {
-  background-color: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
   border: none;
   border-radius: 8px;
   padding: 12px 24px;
@@ -280,8 +257,8 @@ onMounted(() => {
 }
 
 .btn:hover {
-  background-color: var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-primary);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -299,20 +276,21 @@ onMounted(() => {
 
 .row {
   margin: 0;
+
   display: flex;
   flex-wrap: wrap;
 }
 
 .col-md-8 {
+  padding:0;
   flex: 0 0 66.666667%;
   max-width: 66.666667%;
-  padding: 0 15px;
 }
 
 .col-md-4 {
+  padding:0;
   flex: 0 0 33.333333%;
   max-width: 33.333333%;
-  padding: 0 15px;
 }
 
 @media (max-width: 768px) {

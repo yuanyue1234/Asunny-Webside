@@ -6,12 +6,12 @@ export const profileData = {
     {
       platform: 'qq',
       url: 'https://qm.qq.com/q/t9NWzRRtCi',
-      icon: 'QQIcon'
+      icon: 'fab fa-qq'
     },
     {
       platform: 'bilibili',
       url: 'https://space.bilibili.com/58888378',
-      icon: 'BilibiliIcon'
+      icon: 'fab fa-bilibili'
     }
   ],
   interests: [

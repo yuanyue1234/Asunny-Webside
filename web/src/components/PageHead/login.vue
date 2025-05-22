@@ -38,6 +38,9 @@ const handleLogin = () => {
         <button type="submit" class="auth-button">登录</button>
       </form>
       <p class="auth-link">
+         <a href=""><i></i>QQ登录</a>
+      </p>
+      <p class="auth-link">
         还没有账号？ <a href="/register">立即注册</a>
       </p>
     </div>

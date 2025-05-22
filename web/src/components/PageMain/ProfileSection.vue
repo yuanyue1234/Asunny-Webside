@@ -1,28 +1,17 @@
 <template>
-  <div class="profile">
-    <div class="profile-header">
-      <div class="carousel">
-        <div class="carousel-item active">
-          <img :src="profile.avatar" class="clickable">
-        </div>
-        <div class="carousel-nav"></div>
-      </div>
-      <img class="avatar" :src="profile.avatar" :alt="profile.name">
-    </div>
-  
-  
     <div class="profile-info">
-      <div class="name">
+      <div class="">
         {{ profile.name }}
         <a v-for="social in profile.socialLinks" 
            :key="social.platform"
            :href="social.url" 
            class="social-icon" 
            target="_blank">
-          <component :is="social.icon" />
+          <i :class="social.icon"></i>
         </a>
       </div>
-      <div class="username">{{ profile.email }}</div>
+      <div class="">{{ profile.email }}</div>
+      <!-- 一言 -->
       <div>
         <center class="dibu">
           <div style="line-height: 20px;font-family: 'Microsoft YaHei';font-size:14px;">
@@ -35,8 +24,7 @@
         </center>
       </div>
     </div>
-  </div>
-    <div  class="profile">
+
     <div class="showcase">
       <div v-for="interest in profile.interests" 
            :key="interest.title" 
@@ -64,7 +52,6 @@
         <hr>
       </div>
     </div>
-  </div>
 </template>
 
 <script setup>
@@ -74,4 +61,21 @@ defineProps({
     required: true
   }
 })
-</script> 
+</script>
+
+<style scoped>
+
+.clickable {
+  max-width: 100px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  cursor: pointer;
+  margin: 5px;
+  transition: transform 0.2s;
+}
+
+.clickable:hover {
+  transform: scale(1.05);
+}
+</style> 

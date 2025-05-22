@@ -1,13 +1,9 @@
-import login from '@/components/login.vue'
+import login from '@/components/PageHead/login.vue'
 
 export const navItems = [
   {
-    text: '我的网盘',
-    url: 'http://www.oss.asunny.art/'
-  },
-  {
-    text: '我的博客',
-    url: '##'
+    text: '主页',
+    url: '/'
   },
   {
     text: '登录',
