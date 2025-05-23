@@ -20,6 +20,7 @@ import '@/assets/scripts.js'
       <router-view></router-view> 
       <PageMain />
       <PageFooter />
+      
     </div>
 
   </div>

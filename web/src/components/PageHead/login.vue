@@ -75,7 +75,7 @@ h2 {
 label {
   display: block;
   margin-bottom: 0.5rem;
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--md-sys-color-on-surface);
 }
 
 input {
@@ -116,7 +116,7 @@ input:focus {
 .auth-link {
   text-align: center;
   margin-top: 1.5rem;
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--md-sys-color-on-surface);
 }
 
 .auth-link a {

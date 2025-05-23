@@ -8,10 +8,11 @@ export const profileData = {
       url: 'https://qm.qq.com/q/t9NWzRRtCi',
       icon: 'fab fa-qq'
     },
+
     {
-      platform: 'bilibili',
-      url: 'https://space.bilibili.com/58888378',
-      icon: 'fab fa-bilibili'
+      platform: 'email',
+      url: 'e@asunny.top',
+      icon: 'fas fa-envelope'
     }
   ],
   interests: [

@@ -1,6 +1,5 @@
 <template>
   <div class="page-footer">
-    <lyb />
   </div>
 </template>
 

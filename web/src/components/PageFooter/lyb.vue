@@ -182,6 +182,7 @@ onMounted(() => {
   padding: 12px;
   text-align: left;
   font-weight: 500;
+  border: none;
 }
 
 .table tbody td {
@@ -234,19 +235,74 @@ onMounted(() => {
   margin-bottom: 16px;
 }
 
+/* 表单控件样式 */
 .form-control {
-  background-color: var(--md-sys-color-surface);
-  border-radius: 8px;
-  padding: 8px;
-  width: 100%;
-  transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: var(--md-sys-color-surface);
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    width: 100%;
+    color: var(--md-sys-color-on-surface);
+    font-size: var(--font-size-md);
+    transition: all var(--transition-normal);
 }
 
 .form-control:focus {
-  border-color: var(--md-sys-color-primary);
-  box-shadow: 0 0 0 2px var(--md-sys-color-primary-container);
+    outline: none;
+    border-color: var(--md-sys-color-primary);
+    box-shadow: 0 0 0 2px var(--md-sys-color-primary-container);
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
 }
 
+.form-control::placeholder {
+    color: var(--md-sys-color-outline);
+}
+
+/* 表单组样式 */
+.form-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    color: var(--md-sys-color-on-surface);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.form-text {
+    display: block;
+    margin-top: var(--spacing-xs);
+    color: var(--md-sys-color-outline);
+    font-size: var(--font-size-sm);
+}
+
+/* 表单验证状态 */
+.form-control.is-invalid {
+    border-color: #dc3545;
+    background-color: color-mix(in srgb, var(--md-sys-color-surface) 95%, #dc3545 5%);
+}
+
+.form-control.is-valid {
+    border-color: #198754;
+    background-color: color-mix(in srgb, var(--md-sys-color-surface) 95%, #198754 5%);
+}
+
+.invalid-feedback {
+    display: block;
+    margin-top: var(--spacing-xs);
+    color: #dc3545;
+    font-size: var(--font-size-sm);
+}
+
+.valid-feedback {
+    display: block;
+    margin-top: var(--spacing-xs);
+    color: #198754;
+    font-size: var(--font-size-sm);
+}
 .btn {
   background-color: var(--md-sys-color-primary);
   color: var(--md-sys-color-on-primary);

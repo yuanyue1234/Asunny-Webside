@@ -9,4 +9,8 @@ export const navItems = [
     text: '登录',
     url: "/login"
   },
+  {
+    text:'留言',
+    url:'/lyb'
+  }
 ] 
