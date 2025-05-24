@@ -33,15 +33,26 @@ export default {
     align-items: center;
     text-align: center;
     margin: var(--spacing-lg) 0;
+    padding: var(--spacing-md);
+    transition: all var(--transition-normal);
 }
 
 #hitokoto_text {
-    color: var(--md-sys-color-on-primary);
+    color: var(--md-sys-color-on-surface-variant);
     text-decoration: none;
     font-style: italic;
-    transition: color var(--transition-normal);
-    font-weight: 900;
+    transition: all var(--transition-normal);
+    font-weight: 500;
+    font-size: var(--font-size-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-md);
+}
 
+#hitokoto_text:hover {
+    color: var(--md-sys-color-primary);
+    background-color: var(--md-sys-color-primary-container);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 </style> 
