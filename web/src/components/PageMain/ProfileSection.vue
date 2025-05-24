@@ -1,8 +1,10 @@
 <template>
     <div class="profile-container">
       <div class="profile-info card">
-        <div class="profile-header">
+        <div class="profile-header">>
+        <img class="avatar" :src="profile.avatar" :alt="profile.name">
           <div class="profile-name">
+            
             <h2>{{ profile.name }}</h2>
             <div class="social-links">
               <a v-for="social in profile.socialLinks" 
@@ -68,11 +70,36 @@ defineProps({
 </script>
 
 <style scoped>
+/* 容器样式 */
 .profile-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }
+.profile-info a {
+    color: var(--md-sys-color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+    transition: color 0.3s;
+    font-size: 18px;
+}
+
+.profile-name{
+    text-align: center;
+    color: var(--md-sys-color-on-surface);
+}
+
+.profile-name h2 {
+  margin: 0 0 16px 0;
+  color: var(--md-sys-color-primary);
+  font-size: 2rem;
+}
+
+/* 卡片效果 */
 
 .card {
   background: var(--md-sys-color-surface);
@@ -88,24 +115,21 @@ defineProps({
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
-.profile-info {
-  position: relative;
-  overflow: hidden;
+/* 动画效果 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.fade-in-up {
+    animation: fadeInUp var(--transition-normal) ease-out;
 }
 
-.profile-header {
-  margin-bottom: 20px;
-}
-
-.profile-name {
-  text-align: center;
-}
-
-.profile-name h2 {
-  margin: 0 0 16px 0;
-  color: var(--md-sys-color-primary);
-  font-size: 2rem;
-}
 
 .social-links {
   display: flex;
@@ -125,13 +149,6 @@ defineProps({
   border-radius: 50%;
   transition: all 0.3s ease;
 }
-
-.social-icon:hover {
-  color: var(--md-sys-color-on-primary);
-  background: var(--md-sys-color-primary);
-  transform: translateY(-2px);
-}
-
 
 .clickable {
   max-width: 100px;
@@ -180,6 +197,68 @@ defineProps({
   color: var(--md-sys-color-on-primary-container);
   transform: translateY(-2px);
 }
+
+
+/* 这里是个人简介部分 */
+.social-icon {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    color: var(--md-sys-color-on-surface);
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    color:var(--md-sys-color-on-primary-container); 
+}
+
+
+/* 一言样式 */
+#hitokoto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: var(--spacing-lg) 0;
+}
+
+#hitokoto_text {
+    color: var(--md-sys-color-secondary);
+    text-decoration: none;
+    font-style: italic;
+    transition: color var(--transition-normal);
+}
+
+/* 头像 */
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin:5px auto;
+    border: 3px solid var(--md-sys-color-primary);
+    transition: transform 0.3s ease;
+}
+
+.avatar:hover {
+    transform: rotate(360deg);
+}
+
+/* user card 展示 */
+
+
+.name {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface);
+}
+
+.username {
+    color: var(--md-sys-color-on-surface-variant);
+}
+
 
 hr {
   border: none;

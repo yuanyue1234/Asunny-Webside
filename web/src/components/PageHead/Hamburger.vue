@@ -14,6 +14,44 @@ import ThemeToggle from './ThemeToggle.vue'
 
 <style scoped>
 
+/* 下拉菜单样式 */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--md-sys-color-surface);
+    min-width: 100px;
+    box-shadow: var(--shadow-md);
+    z-index: 1;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    padding: var(--spacing-sm) 0;
+    margin-top: var(--spacing-sm);
+}
+
+.dropdown-content a {
+    color: var(--md-sys-color-on-surface);
+    padding: var(--spacing-md);
+    text-decoration: none;
+    display: block;
+    transition: background-color var(--transition-normal);
+    border-radius: var(--border-radius-sm);
+    margin: 0 var(--spacing-xs);
+}
+
+.dropdown-content a:hover {
+    background-color: var(--md-sys-color-surface-variant);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
 .nav-toggle {
   font-size: 20px;
   cursor: pointer;
