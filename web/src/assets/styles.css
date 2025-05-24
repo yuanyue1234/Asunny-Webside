@@ -78,7 +78,25 @@ html, body {
 /* 背景 */
 .profile {
     padding: var(--spacing-xl) 0;
-    background-image: url("https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/6.jpeg");
+    background-image:url('https://www.dmoe.cc/random.php');
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-attachment: fixed;
+    /* 滚动条隐藏 */ 
+    overflow: hidden;
+}
+@keyframes gradientBG {
+    0% {
+    background-position: 0% 50%;
+    }
+
+    50% {
+    background-position: 100% 50%;
+    }
+
+    100% {
+    background-position: 0% 50%;
+    }
 }
 
 .profile-info {

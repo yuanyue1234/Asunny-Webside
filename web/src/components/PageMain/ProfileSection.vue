@@ -1,7 +1,7 @@
 <template>
     <div class="profile-container">
       <div class="profile-info card">
-        <div class="profile-header">>
+        <div class="profile-header">
         <img class="avatar" :src="profile.avatar" :alt="profile.name">
           <div class="profile-name">
             
@@ -17,32 +17,8 @@
             </div>
           </div>
         </div>
-        <!-- 一言 -->
-        <div class="hitokoto-container">
-          <div class="hitokoto-text">
-            <span>
-              <span id="hitokoto">
-                <a href="#" id="hitokoto_text">"你只活一次."</a>
-              </span>
-            </span>
-          </div>
-        </div>
       </div>
 
-      <div class="showcase card">
-        <div v-for="interest in profile.interests" 
-            :key="interest.title" 
-            class="showcase-item">
-          <div class="showcase-title">{{ interest.subtitle }}</div>
-          <div class="showcase-content">
-            <img v-for="img in interest.images" 
-                :key="img"
-                :src="img"
-                class="clickable">
-          </div>
-          <hr>
-        </div>
-      </div>
 
       <div class="showcase card">
         <div v-for="work in profile.works" 
@@ -53,6 +29,21 @@
             <p v-for="item in work.items" :key="item.url">
               <a :href="item.url">{{ item.text }}</a>
             </p>
+          </div>
+          <hr>
+        </div>
+      </div>
+      
+      <div class="showcase card">
+        <div v-for="interest in profile.interests" 
+            :key="interest.title" 
+            class="showcase-item">
+          <div class="showcase-title">{{ interest.subtitle }}</div>
+          <div class="showcase-content">
+            <img v-for="img in interest.images" 
+                :key="img"
+                :src="img"
+                class="clickable">
           </div>
           <hr>
         </div>
@@ -138,18 +129,6 @@ defineProps({
   margin-top: 16px;
 }
 
-.social-icon {
-  display: inline-flex;
-  width: 40px;
-  height: 40px;
-  align-items: center;
-  justify-content: center;
-  color: var(--md-sys-color-on-surface);
-  background: var(--md-sys-color-surface-variant);
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-
 .clickable {
   max-width: 100px;
   width: 100%;
@@ -206,29 +185,15 @@ defineProps({
     height: 24px;
     align-items: center;
     color: var(--md-sys-color-on-surface);
+    border-radius: 50%;
     transition: color 0.3s ease;
 }
+
 
 .social-icon:hover {
     color:var(--md-sys-color-on-primary-container); 
 }
 
-
-/* 一言样式 */
-#hitokoto {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin: var(--spacing-lg) 0;
-}
-
-#hitokoto_text {
-    color: var(--md-sys-color-secondary);
-    text-decoration: none;
-    font-style: italic;
-    transition: color var(--transition-normal);
-}
 
 /* 头像 */
 .avatar {
