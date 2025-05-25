@@ -244,8 +244,6 @@ input:focus {
 }
 
 .alert-danger {
-  background-color: var(--md-sys-color-error-container);
-  color: var(--md-sys-color-on-error-container);
   border: none;
   border-radius: 8px;
   padding: 0.75rem;

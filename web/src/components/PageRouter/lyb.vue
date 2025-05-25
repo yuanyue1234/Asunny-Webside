@@ -168,50 +168,47 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-
 .table {
   width: 100%;
-  color: var(--md-sys-color-on-surface);
   border-collapse: separate;
-  border-spacing: 0;
+  border-spacing: 0 16px; /* 每行之间添加间距，形成“卡片感” */
+  background-color: transparent;
 }
 
-.table thead th {
-  background-color: var(--md-sys-color-surface-variant);
-  color: var(--md-sys-color-on-surface-variant);
-  padding: 12px;
-  text-align: left;
-  font-weight: 500;
-  border: none;
+.table tbody tr {
+  display: block;
+  background-color: var(--md-sys-color-surface);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  margin-bottom: 12px;
+  transition: box-shadow 0.3s;
+}
+
+.table tbody tr:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .table tbody td {
-  padding: 12px;
-  vertical-align: top;
+  display: block;
+  padding: 8px 0;
+  background: transparent;
+  border: none;
+  color: var(--md-sys-color-on-surface);
 }
 
-.table tbody td:nth-child(1) {
-  width: 20%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.table tbody td strong {
+  display: inline-block;
+  min-width: 80px;
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface-variant);
 }
 
-.table tbody td:nth-child(2) {
-  width: 15%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.table thead {
+  display: none; /* 隐藏表头，评论风格不需要列标题 */
 }
 
-.table tbody td:nth-child(3) {
-  width: 55%;
-}
 
-.table tbody td:nth-child(4) {
-  width: 10%;
-  white-space: nowrap;
-}
 
 .content-cell {
   position: relative;
@@ -321,8 +318,7 @@ onMounted(async () => {
 .btn-sm {
   padding: 8px;
   border-radius: 4px;
-  background-color: var(--md-sys-color-secondary-container);
-  color: var(--md-sys-color-on-secondary-container);
+
 }
 
 .btn-sm:hover {
