@@ -53,7 +53,7 @@ const handleLogin = async () => {
   if (!validateForm()) return
   
   try {
-    const response = await axios.post('http://localhost:8000/api/login/', {
+    const response = await axios.post('http://localhost:8000/api/lyb/login/', {
       username: username.value,
       password: password.value
     })
@@ -79,7 +79,7 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="profile">
+  <div class="login-container">
     <!-- Bootstrap Toast 提示框 -->
     <div class="toast-container position-fixed top-0 end-0 p-3">
       <div class="toast" :class="`text-white bg-${toastType}`" role="alert" aria-live="assertive" aria-atomic="true" v-show="showToast">
@@ -142,6 +142,14 @@ const handleLogin = async () => {
 </template>
 
 <style scoped>
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 200px); /* 减去头部和底部的高度 */
+  padding: 20px;
+}
+
 .auth-box {
   background: var(--md-sys-color-surface);
   padding: 2rem;
@@ -149,7 +157,6 @@ const handleLogin = async () => {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  margin: 0 auto;
 }
 
 h2 {
@@ -186,7 +193,6 @@ input:focus {
   outline: none;
   border-color: var(--md-sys-color-primary);
   box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .auth-button {
@@ -198,26 +204,22 @@ input:focus {
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
-  font-weight: 500;
-  transition: background-color 0.3s, transform 0.3s;
+  transition: background-color 0.3s;
 }
 
 .auth-button:hover {
   background: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
-  transform: translateY(-2px);
 }
 
 .auth-link {
   text-align: center;
-  margin-top: 1.5rem;
-  color: var(--md-sys-color-on-surface);
+  margin-top: 1rem;
+  color: var(--md-sys-color-on-surface-variant);
 }
 
 .auth-link a {
   color: var(--md-sys-color-primary);
   text-decoration: none;
-  font-weight: 500;
   transition: color 0.3s;
 }
 
@@ -226,71 +228,22 @@ input:focus {
   text-decoration: underline;
 }
 
-.error-message {
-  color: #dc3545;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-/* 添加 Bootstrap 相关样式 */
-.is-invalid {
-  border-color: #dc3545 !important;
-}
-
 .invalid-feedback {
-  display: block;
-  width: 100%;
+  color: var(--md-sys-color-error);
+  font-size: 0.875rem;
   margin-top: 0.25rem;
-  font-size: 0.875em;
-  color: #dc3545;
 }
 
-.alert {
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
+.is-invalid {
+  border-color: var(--md-sys-color-error) !important;
 }
 
 .alert-danger {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-}
-
-/* Toast 样式 */
-.toast-container {
-  z-index: 1050;
-}
-
-.toast {
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  min-width: 250px;
-}
-
-.toast.show {
-  opacity: 1;
-}
-
-.toast-header {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 0.75rem;
-  background-color: rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.toast-body {
+  background-color: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+  border: none;
+  border-radius: 8px;
   padding: 0.75rem;
-}
-
-.bg-success {
-  background-color: #28a745 !important;
-}
-
-.bg-danger {
-  background-color: #dc3545 !important;
+  margin-bottom: 1rem;
 }
 </style>

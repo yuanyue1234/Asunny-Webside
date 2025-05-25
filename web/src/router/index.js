@@ -21,9 +21,8 @@ const routes = [
   {
     path: '/lyb',
     name: 'lyb',
-    component:lyb
+    component: lyb
   }
-
 ]
 
 const router = createRouter({

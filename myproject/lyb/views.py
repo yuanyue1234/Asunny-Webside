@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import permissions, viewsets, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
@@ -19,8 +19,10 @@ class LybrViewSet(viewsets.ModelViewSet):
     """
     queryset = lyb.objects.all().order_by('-posttime')
     serializer_class = LybSerializer
+    permission_classes = [permissions.AllowAny]
 
 @api_view(['POST'])
+@permission_classes([permissions.AllowAny])
 def register_user(request):
     username = request.data.get('username')
     password = request.data.get('password')
@@ -36,6 +38,7 @@ def register_user(request):
     return Response({'message': '注册成功'}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
+@permission_classes([permissions.AllowAny])
 def login_user(request):
     username = request.data.get('username')
     password = request.data.get('password')
@@ -56,6 +59,7 @@ def login_user(request):
     })
 
 class NavItemListAPIView(APIView):
+    permission_classes = [permissions.AllowAny]
     def get(self, request):
         nav_items = NavItem.objects.all()
         serializer = NavItemSerializer(nav_items, many=True)
