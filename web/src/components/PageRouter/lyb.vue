@@ -80,7 +80,7 @@ const state = reactive({
 });
 
 // 获取留言列表
-const base_url = "http://127.0.0.1:8000/api/lyb/"
+const base_url = "http://127.0.0.1:8000/api/lyb/lyb/"
 const getLyb = () => {
   axios.get(base_url).then(res => {
     state.ly_list = res.data
@@ -91,7 +91,7 @@ const getLyb = () => {
 }
 
 // 页面加载时获取留言列表
-onMounted(() => {
+onMounted(async () => {
   getLyb()
 })
 </script>
@@ -332,7 +332,7 @@ onMounted(() => {
 
 .row {
   margin: 0;
-
+  margin: 16px 0;
   display: flex;
   flex-wrap: wrap;
 }

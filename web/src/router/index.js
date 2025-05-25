@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '@/components/PageHead/login.vue'
-import Register from '@/components/PageHead/register.vue'
-import lyb from'@/components/PageFooter/lyb.vue'
+import Login from '@/components/PageRouter/login.vue'
+import Register from '@/components/PageRouter/register.vue'
+import lyb from '@/components/PageRouter/lyb.vue'
 
 const routes = [
   {

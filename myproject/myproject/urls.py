@@ -16,13 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from lyb.views import LybrViewSet
+# from rest_framework import routers # 不再在这里定义 router
+# from lyb.views import LybrViewSet, register_user, login_user # 这些将通过 lyb.urls 引入
 
-router = routers.DefaultRouter()
-router.register(r'lyb', LybrViewSet)
+# router = routers.DefaultRouter() # 移至 lyb.urls.py
+# router.register(r'lyb', LybrViewSet) # 移至 lyb.urls.py
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('api/lyb/', include('lyb.urls')), # 包含 lyb app 的所有 URL
+    # path('api/', include(router.urls)), # 旧的 lyb router，将被上面的取代
+    # path('api/register/', register_user, name='register'), # 移至 lyb.urls.py
+    # path('api/login/', login_user, name='login'), # 移至 lyb.urls.py
 ]

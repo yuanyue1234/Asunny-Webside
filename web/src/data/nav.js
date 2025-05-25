@@ -1,4 +1,4 @@
-import login from '@/components/PageHead/login.vue'
+import login from '@/components/PageRouter/login.vue'
 
 export const navItems = [
   {

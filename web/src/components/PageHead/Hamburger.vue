@@ -2,14 +2,27 @@
   <div class="nav-items">
     <div class="theme-toggle" @click="">
       <i class="material-icons">menu</i></div>
-    <a v-for="item in navItems" :key="item.url" :href="item.url">{{ item.text }}</a>
+    <a v-for="item in navItemsFromAPI" :key="item.id || item.url" :href="item.url">{{ item.text }}</a>
     <ThemeToggle />
   </div>
 </template>
 
 <script setup>
-import { navItems } from '@/data/nav'
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import ThemeToggle from './ThemeToggle.vue'
+
+const navItemsFromAPI = ref([]);
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/lyb/navitems/'); 
+    navItemsFromAPI.value = response.data;
+    console.log('Hamburger.vue - 从 API 获取的导航数据:', navItemsFromAPI.value);
+  } catch (error) {
+    console.error('Hamburger.vue - 获取导航数据失败:', error);
+  }
+});
 </script>
 
 <style scoped>
