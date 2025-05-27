@@ -1,9 +1,14 @@
 <template> 
-  <div class="nav-items">
-    <div class="theme-toggle" @click="">
-      <i class="material-icons">menu</i></div>
-    <a v-for="item in navItems" :key="item.id || item.url" :href="item.url">{{ item.text }}</a>
-    <ThemeToggle />
+  <div class="nav-container">
+    <div class="theme-toggle menu-button" @click="toggleMenu">
+      <i class="material-icons">menu</i>
+    </div>
+    <div class="nav-items" :class="{ 'show-menu': isMenuOpen }">
+      <a v-for="item in navItems" :key="item.id || item.url" :href="item.url">{{ item.text }}</a>
+
+    </div>
+          <ThemeToggle />
+
   </div>
 </template>
 
@@ -11,6 +16,12 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import ThemeToggle from './ThemeToggle.vue'
+
+const isMenuOpen = ref(false);
+
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value;
+};
 
 // 默认导航项
 const defaultNavItems = [
@@ -37,6 +48,124 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-button {
+  display: none;
+  position: fixed;
+  left: 20px;
+  top: 10px;
+  z-index: 10000;
+  transition: all 0.3s ease;
+}
+
+.menu-button:hover {
+  transform: scale(1.1);
+  background-color: var(--md-sys-color-surface-variant);
+}
+
+.nav-items {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  background-color: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-surface);
+  border-radius: 32px;
+  padding: 5px 8px;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.nav-items a {
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+  border-radius: 32px;
+  padding: auto;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.nav-items a:hover {
+  width: 40px;
+  height: 40px;
+  background-color: var(--md-sys-color-surface-variant);
+  transform: translateY(-2px);
+}
+
+@media screen and (max-width: 650px) {
+  .menu-button {
+    display: flex;
+  }
+
+  .nav-items {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 60px;
+    left: 20px;
+    transform: none;
+    background-color: var(--md-sys-color-background);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: var(--shadow-md);
+    width: 200px;
+    animation: slideIn 0.3s ease;
+  }
+
+  .nav-items.show-menu {
+    display: flex;
+  }
+
+  .nav-items a {
+    width: 100%;
+    text-align: left;
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+
+  .nav-items a:hover {
+    width: 100%;
+    transform: translateX(5px);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 亮暗切换按钮样式 */
+:deep(.theme-toggle) {
+  position: fixed;
+  right: 20px;
+  top: 10px;
+  z-index: 10000;
+  transition: all 0.3s ease;
+}
+
+:deep(.theme-toggle:hover) {
+  transform: scale(1.1);
+  background-color: var(--md-sys-color-surface-variant);
+}
 
 /* 下拉菜单样式 */
 .dropdown {
@@ -75,50 +204,12 @@ onMounted(async () => {
     display: block;
 }
 
-
 .nav-toggle {
   font-size: 20px;
   cursor: pointer;
   padding: 8px;
   opacity: 0.7;
   /* display: none; */
-}
-
-.nav-items {
-  /* 固定顶层 */
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-  /*  */
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  background-color: var(--md-sys-color-background);
-  color: var(--md-sys-color-on-surface);
-  border-radius: 32px;
-  padding:5px 8px;
-  margin-top: 10px;
-}
-
-.nav-items a {
-  text-decoration: none;
-  color: inherit;
-  font-size: 14px;
-  border-radius: 32px;
-  padding: auto;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  transition: background-color 0.2s;
-
-}
-.nav-items a:hover{
-  width: 40px;
-  height: 40px;
-  background-color: var(--md-sys-color-surface-variant);
 }
 
 .theme-toggle {
