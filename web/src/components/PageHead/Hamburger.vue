@@ -60,7 +60,7 @@ onMounted(async () => {
 }
 
 .menu-button {
-  display: none;
+  display: none !important;
   position: fixed;
   left: 20px;
   top: 10px;
@@ -102,12 +102,12 @@ onMounted(async () => {
   width: 40px;
   height: 40px;
   background-color: var(--md-sys-color-surface-variant);
-  transform: translateY(-2px);
+  transform: scale(1.1);
 }
 
 @media screen and (max-width: 650px) {
   .menu-button {
-    display: flex;
+    display: flex !important;
   }
 
   .nav-items {
@@ -132,6 +132,8 @@ onMounted(async () => {
   .nav-items a {
     width: 100%;
     text-align: left;
+    margin: 0;
+    line-height: 25px;
     padding: 8px 16px;
     border-radius: 8px;
   }
@@ -139,6 +141,7 @@ onMounted(async () => {
   .nav-items a:hover {
     width: 100%;
     transform: translateX(5px);
+    background-color: var(--md-sys-color-surface-variant);
   }
 }
 
@@ -160,11 +163,14 @@ onMounted(async () => {
   top: 10px;
   z-index: 10000;
   transition: all 0.3s ease;
+  background-color: var(--md-sys-color-surface-variant) !important;
 }
 
 :deep(.theme-toggle:hover) {
   transform: scale(1.1);
   background-color: var(--md-sys-color-surface-variant);
+  
+  
 }
 
 /* 下拉菜单样式 */
