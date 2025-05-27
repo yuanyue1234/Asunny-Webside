@@ -13,10 +13,12 @@ import '@/assets/js/maodian.js'
 <template>
   <div class="app-container">
     <div class="profile">
+      <div class="article">
       <PageHead />
       <router-view></router-view>
       <PageMain />
       <PageFooter />
+      </div>
     </div>
   </div>
 </template>

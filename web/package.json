@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@chinese-fonts/syst": "^2.0.1",
     "@popperjs/core": "^2.11.8",
     "@vueuse/core": "^13.2.0",
     "axios": "^1.9.0",

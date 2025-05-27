@@ -95,7 +95,7 @@ onMounted(async () => {
   display: flex;
   gap: 15px;
   align-items: center;
-  background-color: var(--md-sys-color-surface);
+  background-color: var(--md-sys-color-background);
   color: var(--md-sys-color-on-surface);
   border-radius: 32px;
   padding:5px 8px;

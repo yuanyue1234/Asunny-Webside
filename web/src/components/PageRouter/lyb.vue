@@ -168,11 +168,27 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+/* Main container background */
+.row {
+
+  padding: 20px;
+  border-radius: 8px;
+  margin: 0;
+}
+
+/* Ensure the background covers the full width */
+:deep(.container) {
+  max-width: 100%;
+  padding: 0;
+}
 .table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 16px; /* 每行之间添加间距，形成“卡片感” */
   background-color: transparent;
+}
+.showcase{
+  background-color: var(--md-sys-color-background);
 }
 
 .table tbody tr {

@@ -1,37 +1,27 @@
 #!/bin/bash
 
+export LANG=en_US.UTF-8  # 或其他UTF-8语言环境
+export LC_ALL=en_US.UTF-8
+
 # 设置颜色输出
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-echo "开始检查服务状态..."
+# echo "开始检查服务状态..."
 
-# 检查MySQL服务状态
-echo "检查MySQL服务..."
-if systemctl is-active --quiet mysql; then
-    echo -e "${GREEN}MySQL服务正在运行${NC}"
-else
-    echo -e "${RED}MySQL服务未运行，正在启动...${NC}"
-    systemctl start mysql
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}MySQL服务启动成功${NC}"
-    else
-        echo -e "${RED}MySQL服务启动失败，请手动检查${NC}"
-        exit 1
-    fi
-fi
+# # 检查MySQL服务状态
+
 
 # 启动后端服务
 echo "启动后端服务..."
-cd backend
-source venv/bin/activate  # 如果使用虚拟环境
+cd myproject
 python manage.py runserver 0.0.0.0:8000 &
 BACKEND_PID=$!
 
 # 启动前端服务
 echo "启动前端服务..."
-cd ../frontend
+cd ../web
 npm run dev &
 FRONTEND_PID=$!
 

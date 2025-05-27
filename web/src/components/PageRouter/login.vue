@@ -214,7 +214,7 @@ input:focus {
 .auth-link {
   text-align: center;
   margin-top: 1rem;
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--md-sys-color-on-surface);
 }
 
 .auth-link a {

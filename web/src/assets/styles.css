@@ -1,23 +1,43 @@
+@import url("https://chinese-fonts-cdn.deno.dev/packages/LxgwNeoZhiSong/dist/LXGWNeoZhiSong/result.css");
+
+
+
+.article { 
+    font-family: 'LXGW Neo ZhiSong', sans-serif;
+    font-weight: 800;
+    font-variation-settings: 'wght' 800;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 /* 主题颜色变量 */
 :root {
-    /* 主要颜色 */
-    --md-sys-color-primary: #6750A4;
-    --md-sys-color-on-primary: #FFFFFF;
-    --md-sys-color-primary-container: #EADDFF;
-    
-    /* 次要颜色 */
-    --md-sys-color-secondary: #625B71;
-    --md-sys-color-on-secondary: #FFFFFF;
-    --md-sys-color-secondary-container: #E8DEF8;
-    
-    /* 背景和表面颜色 */
-    --md-sys-color-surface: #FFFBFE;
-    --md-sys-color-on-surface: #1C1B1F;
-    --md-sys-color-surface-variant: #E7E0EC;
-    
-    /* 轮廓和背景 */
-    --md-sys-color-outline: #79747E;
-    --md-sys-color-background: #FFFBFE;
+  /* 主色调 - 更饱和的紫红色 */
+  --md-sys-color-primary: #7D33FF;                /* 主按钮、链接等强调 */
+  --md-sys-color-on-primary: #FFFFFF;             /* 主色调上的文字 */
+  --md-sys-color-primary-container: #EDE0FF;      /* 主容器或强调块 */
+
+  /* 次要颜色 - 温和紫灰色 */
+  --md-sys-color-secondary: #5C4B70;
+  --md-sys-color-on-secondary: #FFFFFF;
+  --md-sys-color-secondary-container: #D8CDEA;
+
+  /* 成功、警告、错误（可选） */
+  --md-sys-color-success: #0F9D58;
+  --md-sys-color-warning: #F9AB00;
+  --md-sys-color-error: #D93025;
+
+  /* 背景和表面色 - 典型Material3柔和层感 */
+  --md-sys-color-background: #F5F3FF;             /* 全局背景色 */
+  --md-sys-color-surface: #FFFFFF;                /* 卡片、内容区背景 */
+  --md-sys-color-on-surface: #1B1B1F;             /* 普通文本颜色 */
+  --md-sys-color-surface-variant: #ECE6F0;        /* 小组件或模块背景 */
+
+  /* 辅助与边框 */
+  --md-sys-color-outline: #A69CAD;                /* 输入框边框/分隔线 */
+
+  /* hover、active 的蒙层色（带透明度） */
+  --md-sys-color-hover-overlay: rgba(125, 51, 255, 0.08);
+  --md-sys-color-focus-outline: rgba(125, 51, 255, 0.3);
 
     /* 间距变量 */
     --spacing-xs: 4px;
@@ -67,7 +87,6 @@ body.dark-theme {
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
     background-color: var(--md-sys-color-background);
     color: var(--md-sys-color-on-surface);
     transition: background-color var(--transition-normal), color var(--transition-normal);
@@ -78,12 +97,22 @@ html, body {
 /* 背景 */
 .profile {
     padding: var(--spacing-xl) 0;
-    background-image:url('https://www.dmoe.cc/random.php');
-    background-repeat:no-repeat;
-    background-size:cover;
+    /* background-image: url('https://www.dmoe.cc/random.php'); */
+    background-image: url('https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/20250527_172019_317.png');
+    background-repeat: no-repeat;
+    background-size: cover;
     background-attachment: fixed;
     /* 滚动条隐藏 */ 
     overflow: hidden;
+}
+
+/* 当屏幕宽度小于650px时的背景设置 */
+@media screen and (max-width: 650px) {
+    .profile {
+        background-image: url('https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/%E7%83%9F%E9%9B%BE_3.jpg');
+        background-size: cover;
+        background-position: center;
+    }
 }
 @keyframes gradientBG {
     0% {
@@ -101,7 +130,6 @@ html, body {
 
 .profile-info {
     margin: var(--spacing-xl) var(--spacing-md);
-    background-color: var(--md-sys-color-surface);
     padding: var(--spacing-xl);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
@@ -145,7 +173,6 @@ nav a:hover, .dropdown>span:hover {
 /* 展示区域样式 */
 .showcase {
     margin: var(--spacing-lg) var(--spacing-md);
-    background-color: var(--md-sys-color-surface);
     border-radius: var(--border-radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
@@ -155,7 +182,6 @@ nav a:hover, .dropdown>span:hover {
 
 .showcase-item {
     border-radius: 12px;
-    background-color: var(--md-sys-color-surface);
     
 }
 
