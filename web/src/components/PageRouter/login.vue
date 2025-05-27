@@ -65,7 +65,7 @@ const handleLogin = async () => {
     // 显示登录成功提示
     showMessage('登录成功，欢迎回来！', 'success')
     
-    // 延迟2秒后跳转，确保用户能看到提示
+    // 延迟1秒后跳转，确保用户能看到提示
     setTimeout(() => {
       router.push('/')
     }, 1000)

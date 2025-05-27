@@ -26,7 +26,6 @@ const toggleMenu = () => {
 // 默认导航项
 const defaultNavItems = [
   { text: '首页', url: '/' },
-  { text: '登录', url: '/login' },
   { text: '留言', url: '/lyb' }
 ];
 
@@ -163,7 +162,6 @@ onMounted(async () => {
   top: 10px;
   z-index: 10000;
   transition: all 0.3s ease;
-  background-color: var(--md-sys-color-surface-variant) !important;
 }
 
 :deep(.theme-toggle:hover) {
