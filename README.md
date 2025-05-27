@@ -22,4 +22,5 @@ python manage.py migrate
 ---
 登录后lyb用户名对应
 只有管理员账户能够修改和删除评论.
-登录后nav添加一个admin页面
+
+携带user 和密码 的login界面

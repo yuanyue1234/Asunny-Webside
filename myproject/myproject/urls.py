@@ -21,5 +21,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/lyb/', include('lyb.urls')), # 包含 lyb app 的所有 URL
-    path('api/site/', include('site_config.urls')), # 新增 site_config 的 URL
+    path('api/site/', include('site_config.urls')), # 新增 site_config  站点配置 的 URL
 ]

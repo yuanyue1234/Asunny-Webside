@@ -1,3 +1,22 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import { isUserLoggedIn, fetchUserInfo } from '@/utils/user.js'
+
+const isLoggedIn = ref(false)
+const username = ref('')
+
+onMounted(async () => {
+  isLoggedIn.value = isUserLoggedIn()
+  if (isLoggedIn.value) {
+    try {
+      const userInfo = await fetchUserInfo()
+      username.value = userInfo?.username || ''
+    } catch (error) {
+      console.error('Failed to fetch user info:', error)
+    }
+  }
+})
+</script>
 <template>
   <div class="page-footer">
     <!-- 一言 -->
@@ -12,40 +31,15 @@
       </div>
     <div class="manage">
       <div class="manage-item">
-        <a :href="isLoggedIn ? '#' : '/login'">{{ displayText }}</a>
+        <a :href="isLoggedIn ? `/profile/${username}` : '/login'">{{ isLoggedIn ? username : '登录' }}</a>
         |
-        <a href="#">管理</a>
+        <a href="/profile">管理</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
-import { isLoggedIn, getUsername } from '@/utils/user'
-
-export default {
-  setup() {
-    const isLoggedInState = ref(false)
-    const displayText = ref('登录')
-
-    const updateUserState = async () => {
-      isLoggedInState.value = await isLoggedIn()
-      if (isLoggedInState.value) {
-        displayText.value = await getUsername()
-      }
-    }
-
-    onMounted(() => {
-      updateUserState()
-    })
-
-    return {
-      isLoggedIn: isLoggedInState,
-      displayText
-    }
-  }
-}
 </script>
 
 <style scoped>

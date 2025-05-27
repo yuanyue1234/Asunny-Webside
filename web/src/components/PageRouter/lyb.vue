@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted, toRefs } from 'vue'
-import axios from 'axios'
+import axios from '@/utils/axios'
 
 // 用于表单输入
 const lyb_blank = {

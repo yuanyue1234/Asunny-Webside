@@ -1,9 +1,11 @@
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import axios from '@/utils/axios'
 
 const router = useRouter()
+const authStore = useAuthStore()
 const username = ref('')
 const password = ref('')
 const error = ref('')
@@ -53,14 +55,17 @@ const handleLogin = async () => {
   if (!validateForm()) return
   
   try {
-    const response = await axios.post('http://localhost:8000/api/lyb/login/', {
+    const response = await axios.post('/login/', {
       username: username.value,
       password: password.value
     })
     
-    // 存储token和用户信息
-    localStorage.setItem('token', response.data.token)
-    localStorage.setItem('username', response.data.username)
+    // 使用 auth store 存储认证信息
+    authStore.setAuth(
+      response.data.access,
+      response.data.refresh,
+      response.data.username
+    )
     
     // 显示登录成功提示
     showMessage('登录成功，欢迎回来！', 'success')
