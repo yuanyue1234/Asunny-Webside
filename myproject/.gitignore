@@ -36,6 +36,7 @@ media/
 staticfiles/
 
 # Virtual Environment
+.venv/
 venv/
 ENV/
 env/
