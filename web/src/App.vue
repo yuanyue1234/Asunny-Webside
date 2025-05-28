@@ -5,7 +5,6 @@ import PageFooter from '@/components/PageFooter/index.vue'
 
 // 引入外部CSS和JS
 import '@/assets/styles.css'
-import '@/assets/js/scripts.js'
 import '@/assets/css/normalize.css'
 import '@/assets/js/maodian.js'
 </script>
