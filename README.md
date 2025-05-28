@@ -3,10 +3,12 @@ cd web && npm run dev
 
 启动后端：
 先启动数据库
-cd myproject &&
+
+cd myproject && source venv/Scripts/activate &&
 python manage.py runserver
 
-
+更新依赖包:
+pip freeze > requirements.txt
 ---
 
 迁移数据库：
