@@ -26,14 +26,15 @@ const toggleMenu = () => {
 // 默认导航项
 const defaultNavItems = [
   { text: '首页', url: '/' },
-  { text: '留言', url: '/lyb' }
+  { text: '留言', url: '/lyb' },
+  { text: '简介', url: '/my' }
 ];
 
 const navItems = ref(defaultNavItems);
 
 onMounted(async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/lyb/navitems/'); 
+    const response = await axios.get('http://127.0.0.1:8000/api/is/navitems/'); 
     if (response.data && response.data.length > 0) {
       navItems.value = response.data;
     }

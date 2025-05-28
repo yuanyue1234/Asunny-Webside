@@ -5,6 +5,7 @@ import UserProfile from '@/components/PageRouter/UserProfile.vue'
 import lyb from '@/components/PageRouter/lyb.vue'
 import profile from '@/components/PageRouter/UserProfile.vue'
 import { useAuthStore } from '@/stores/auth'
+import my from '@/components/PageRouter/my.vue'
 import axios from '@/utils/axios'
 
 const router = createRouter({
@@ -35,6 +36,11 @@ const router = createRouter({
       path: '/profile',
       name: 'Profile',
       component: profile
+    },
+    {
+      path: '/my',
+      name: 'My',
+      component: my
     }
   ]
 })

@@ -3,7 +3,7 @@ import { useAuthStore } from '../stores/auth'
 
 // 创建 axios 实例
 const instance = axios.create({
-  baseURL: 'http://localhost:8000/api/lyb',
+  baseURL: 'http://localhost:8000/api/is',
   timeout: 5000
 })
 

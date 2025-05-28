@@ -16,7 +16,7 @@ const profileDataFromAPI = ref(null);
 const loading = ref(true);
 const error = ref('');
 
-const API_URL = 'http://127.0.0.1:8000/api/site/profile/';
+const API_URL = 'http://127.0.0.1:8000/api/is/site/profile/';
 
 const fetchProfileData = async () => {
   loading.value = true;

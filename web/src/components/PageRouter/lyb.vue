@@ -83,7 +83,7 @@ const state = reactive({
 });
 
 // 获取留言列表
-const base_url = "http://127.0.0.1:8000/api/lyb/lyb/"
+const base_url = "http://127.0.0.1:8000/api/is/lyb/"
 const getLyb = async () => {
   try {
     const res = await axios.get(base_url)
@@ -126,11 +126,11 @@ onMounted(async () => {
               </thead>
               <tbody>
                 <tr v-for="(item, index) in state.ly_list" :key="index">
-                  <td class="table-title">{{ item.title }}</td>
-                  <td class="table-author">{{ item.author }}</td>
+                  <td class="table-title">✍️{{ item.title }}</td>
+                  <td class="table-author">😺{{ item.author }}</td>
                   <td class="table-content">
                     <div class="content-cell">
-                      {{ getDisplayContent(item.content, index) }}
+                      📄{{ getDisplayContent(item.content, index) }}
                       <button v-if="needsExpand(item.content)" 
                               class="btn btn-link btn-sm expand-btn" 
                               @click="toggleExpand(index)">
@@ -203,7 +203,9 @@ onMounted(async () => {
 .showcase{
   background-color: var(--md-sys-color-background);
 }
-
+.showcase-content {
+    justify-content: left !important;
+}
 .table tbody tr {
   display: block;
   background-color: var(--md-sys-color-surface);
