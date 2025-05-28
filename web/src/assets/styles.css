@@ -153,7 +153,7 @@ html, body {
 }
 
 .profile-container {
-    max-width: 800px;
+    max-width: 650px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -190,14 +190,18 @@ html, body {
 
 .card {
     position: relative;
-    border-radius: 16px !important;
     background-color: var(--md-sys-color-background) !important;
-    
+    padding: 15px !important;
+    margin: 16px 0 !important;
+    border-radius: 16px !important;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     overflow: hidden;
     z-index: 1;
-  }
+    perspective: 1000px;
+    width: 100%;
+    min-height: 200px;
+}
 
   
   .card:hover {

@@ -133,26 +133,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.profile-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.card {
-    position: relative;
-    border-radius: 24px !important;
-    background-color: var(--md-sys-color-background) !important;
-    padding: 24px !important;
-    margin: 16px 0 !important;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    overflow: hidden;
-    z-index: 1;
-    perspective: 1000px;
-    width: 100%;
-    min-height: 200px;
-}
 
 .card__wrapper {
     perspective: 1000px;

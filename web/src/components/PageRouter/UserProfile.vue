@@ -76,7 +76,6 @@ const userInfo = ref({
   username: '',
   email: '',
   date_joined: '',
-  last_login: ''
 })
 
 const loading = ref(true)
@@ -84,6 +83,7 @@ const error = ref('')
 const showToast = ref(false)
 const toastMessage = ref('')
 const toastType = ref('')
+const password = ref('')
 
 // 显示提示消息
 const showMessage = (message, type = 'error') => {

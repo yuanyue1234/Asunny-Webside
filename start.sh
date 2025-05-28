@@ -20,12 +20,13 @@ echo -e "${GREEN}MySQL服务运行正常${NC}"
 
 # 启动后端服务
 echo "启动后端服务..."
+# 安装依赖
+pip install -r requirements.txt
 cd myproject
 # 迁移数据库
 python manage.py makemigrations lyb
 python manage.py migrate
-# 安装依赖
-pip install -r requirements.txt
+
 # 启动服务
 python manage.py runserver 127.0.0.1:8000 &
 BACKEND_PID=$!
