@@ -67,17 +67,7 @@ defineProps({
     margin: 0 auto;
     padding: 20px;
 }
-.profile-info a {
-    color: var(--md-sys-color-primary);
-    text-decoration: none;
-    font-weight: 500;
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 10px;
-    transition: color 0.3s;
-    font-size: 18px;
-}
+
 
 .profile-name{
     text-align: center;
@@ -89,45 +79,6 @@ defineProps({
   color: var(--md-sys-color-primary);
   font-size: 2rem;
 }
-
-/* 卡片效果 */
-
-.card {
-  position: relative;
-  border-radius: 16px;
-  background-color: var(--md-sys-color-background) !important;
-  padding: 24px;
-  margin: 16px 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: inherit;
-  filter: blur(0);
-  opacity: 1;
-  transition: all 0.3s ease;
-  z-index: -1;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-}
-
-.card:hover::before {
-  filter: blur(2px);
-  opacity: 0.8;
-}
-
 /* 动画效果 */
 @keyframes fadeInUp {
     from {

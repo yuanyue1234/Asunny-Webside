@@ -91,5 +91,4 @@ def get_user_info(request):
         'username': user.username,
         'email': user.email,
         'date_joined': user.date_joined.strftime('%Y-%m-%d %H:%M:%S'),
-        'last_login': user.last_login.strftime('%Y-%m-%d %H:%M:%S') if user.last_login else None
     })

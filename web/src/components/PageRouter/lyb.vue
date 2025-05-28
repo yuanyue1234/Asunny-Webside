@@ -1,6 +1,9 @@
 <script setup>
 import { ref, reactive, onMounted, toRefs } from 'vue'
 import axios from '@/utils/axios'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
 
 // 用于表单输入
 const lyb_blank = {
@@ -81,18 +84,28 @@ const state = reactive({
 
 // 获取留言列表
 const base_url = "http://127.0.0.1:8000/api/lyb/lyb/"
-const getLyb = () => {
-  axios.get(base_url).then(res => {
+const getLyb = async () => {
+  try {
+    const res = await axios.get(base_url)
     state.ly_list = res.data
     state.lyb = Object.assign({}, lyb_blank)
-  }).catch(err => {
+  } catch (err) {
     console.log(err)
-  })
+  }
+}
+
+// 检查是否有编辑权限
+const hasEditPermission = (author) => {
+  return authStore.username === 'asunny' || author === authStore.username
 }
 
 // 页面加载时获取留言列表
 onMounted(async () => {
-  getLyb()
+  await getLyb()
+  // 如果用户已登录，自动填充用户名
+  if (authStore.username) {
+    state.lyb.author = authStore.username
+  }
 })
 </script>
 
@@ -113,9 +126,9 @@ onMounted(async () => {
               </thead>
               <tbody>
                 <tr v-for="(item, index) in state.ly_list" :key="index">
-                  <td>{{ item.title }}</td>
-                  <td>{{ item.author }}</td>
-                  <td>
+                  <td class="table-title">{{ item.title }}</td>
+                  <td class="table-author">{{ item.author }}</td>
+                  <td class="table-content">
                     <div class="content-cell">
                       {{ getDisplayContent(item.content, index) }}
                       <button v-if="needsExpand(item.content)" 
@@ -125,7 +138,7 @@ onMounted(async () => {
                       </button>
                     </div>
                   </td>
-                  <td>
+                  <td class="table-actions" v-if="hasEditPermission(item.author)">
                     <button class="btn btn-sm me-2" title="编辑" @click="editLyb(item)">
                       <i class="fas fa-edit"></i>
                     </button>
@@ -184,7 +197,7 @@ onMounted(async () => {
 .table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 16px; /* 每行之间添加间距，形成“卡片感” */
+  border-spacing: 0 16px; /* 每行之间添加间距，形成"卡片感" */
   background-color: transparent;
 }
 .showcase{

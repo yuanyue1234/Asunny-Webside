@@ -1,10 +1,23 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import axios from '@/utils/axios'
 
+// 定义 props
+const props = defineProps({
+  initialUsername: {
+    type: String,
+    default: ''
+  },
+  initialPassword: {
+    type: String,
+    default: ''
+  }
+})
+
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 const username = ref('')
 const password = ref('')
@@ -14,6 +27,24 @@ const passwordError = ref('')
 const showToast = ref(false)
 const toastMessage = ref('')
 const toastType = ref('')
+
+// 初始化用户名和密码
+onMounted(() => {
+  // 优先使用路由参数
+  if (route.query.username || route.query.password) {
+    username.value = route.query.username || ''
+    password.value = route.query.password || ''
+  }
+  // 其次使用 props
+  else if (props.initialUsername || props.initialPassword) {
+    username.value = props.initialUsername
+    password.value = props.initialPassword
+  }
+  // 最后使用 store 中的值
+  else if (authStore.username) {
+    username.value = authStore.username
+  }
+})
 
 const showMessage = (message, type = 'success') => {
   toastMessage.value = message
@@ -137,7 +168,7 @@ const handleLogin = async () => {
         <button type="submit" class="auth-button">登录</button>
       </form>
       <p class="auth-link">
-         <a href=""><i></i>QQ登录</a>
+        已经登录? <a href="/profile">管理信息</a>
       </p>
       <p class="auth-link">
         还没有账号？ <a href="/register">立即注册</a>

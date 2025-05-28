@@ -31,7 +31,7 @@ onMounted(async () => {
       </div>
     <div class="manage">
       <div class="manage-item">
-        <a :href="isLoggedIn ? `/profile/${username}` : '/login'">{{ isLoggedIn ? username : '登录' }}</a>
+        <a :href="isLoggedIn ? `/login` : '/login'">{{ isLoggedIn ? username : '登录' }}</a>
         |
         <a href="/profile">管理</a>
       </div>
