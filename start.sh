@@ -21,8 +21,8 @@ echo -e "${GREEN}MySQL服务运行正常${NC}"
 
 # 激活虚拟环境
 echo "激活虚拟环境..."
-source venv/Scripts/activate  # Windows
-# source venv/bin/activate  # Linux/Mac
+source .venv/Scripts/activate  # Windows
+# source .venv/bin/activate  # Linux/Mac
 
 
 # 启动后端服务

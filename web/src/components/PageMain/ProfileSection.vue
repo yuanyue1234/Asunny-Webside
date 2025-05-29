@@ -96,6 +96,10 @@ onMounted(() => {
     card.addEventListener('mouseleave', () => {
       isHovering = false;
       card3d.style.transform = 'rotateY(0deg) rotateX(0deg)';
+      card3d.style.setProperty('--x', '50%');
+      card3d.style.setProperty('--y', '50%');
+      card3d.style.setProperty('--bg-x', '40%');
+      card3d.style.setProperty('--bg-y', '40%');
     });
 
     card.addEventListener('mousemove', (e) => {
@@ -115,6 +119,16 @@ onMounted(() => {
       
       // 应用变换
       card3d.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+      
+      // 更新光照效果位置 - 使用百分比
+      card3d.style.setProperty('--x', `${xPercent * 100}%`);
+      card3d.style.setProperty('--y', `${yPercent * 100}%`);
+      
+      // 更新背景位置 - 使用百分比
+      const bgX = 40 + 20 * xPercent;
+      const bgY = 40 + 20 * yPercent;
+      card3d.style.setProperty('--bg-x', `${bgX}%`);
+      card3d.style.setProperty('--bg-y', `${bgY}%`);
     });
   });
 
@@ -126,6 +140,10 @@ onMounted(() => {
       const card3d = card.querySelector('.card__3d');
       if (isMobile) {
         card3d.style.transform = 'rotateY(0deg) rotateX(0deg)';
+        card3d.style.setProperty('--x', '50%');
+        card3d.style.setProperty('--y', '50%');
+        card3d.style.setProperty('--bg-x', '40%');
+        card3d.style.setProperty('--bg-y', '40%');
       }
     });
   });
@@ -133,6 +151,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
+:root {
+  --step: 5%;
+}
 
 .card__wrapper {
     perspective: 1000px;
@@ -142,12 +163,16 @@ onMounted(() => {
 }
 
 .card__3d {
+    --x: 50%;
+    --y: 50%;
+    --bg-x: 40%;
+    --bg-y: 40%;
     transform: rotateY(0deg) rotateX(0deg);
     position: relative;
     width: 100%;
     height: 100%;
     border-radius: 24px;
-    background-color: var(--md-sys-color-surface);
+    background-color: var(--md-sys-color-background);
     padding: 20px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     transform-style: preserve-3d;
@@ -166,19 +191,40 @@ onMounted(() => {
     right: 0;
     bottom: 0;
     border-radius: 24px;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0) 50%,
-        rgba(255, 255, 255, 0.1) 100%
+    background: radial-gradient(
+        farthest-corner circle at var(--x) var(--y),
+        var(--md-sys-color-on-secondary) 20%,
+        var(--md-sys-color-surface) 75%,
+        transparent 90%
     );
+    background-position: var(--bg-x) var(--bg-y);
+    background-size: 300%;
+    background-blend-mode: soft-light;
     pointer-events: none;
     z-index: 1;
 }
 
+.card__3d::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 24px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0) 50%,
+        rgba(255, 255, 255, 0.1) 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+}
+
 .profile-header {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -188,7 +234,7 @@ onMounted(() => {
 
 .profile-name {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     text-align: center;
     width: 100%;
     transform: translateZ(20px);
@@ -196,14 +242,14 @@ onMounted(() => {
 
 .showcase-item {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     margin: 20px 0;
     transform: translateZ(20px);
 }
 
 .showcase-content {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
@@ -257,7 +303,7 @@ onMounted(() => {
 /* 确保内容在3D效果之上 */
 .profile-header, .profile-name, .showcase-item, .showcase-content {
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }
 
 .profile-name{
