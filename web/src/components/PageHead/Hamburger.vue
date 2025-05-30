@@ -4,8 +4,8 @@
       <i class="material-icons">menu</i>
     </div>
     <div class="nav-items" :class="{ 'show-menu': isMenuOpen }">
-      <a v-for="item in navItems" :key="item.id || item.url" :href="item.url">{{ item.text }}</a>
-
+      <router-link v-for="item in internalNavItems" :key="item.url" :to="item.url">{{ item.text }}</router-link>
+      <a v-for="item in externalNavItems" :key="item.url" :href="item.url" target="_blank">{{ item.text }}</a>
     </div>
           <ThemeToggle />
 
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import ThemeToggle from './ThemeToggle.vue'
 
@@ -27,15 +27,38 @@ const toggleMenu = () => {
 const defaultNavItems = [
   { text: '首页', url: '/' },
   { text: '留言', url: '/lyb' },
+  { text: '电影', url: 'http://127.0.0.1:8000/movies/', isExternal: true },
   { text: '简介', url: '/my' }
 ];
 
 const navItems = ref(defaultNavItems);
 
+// 分离内部和外部链接
+const internalNavItems = computed(() => {
+  return navItems.value.filter(item => !item.isExternal);
+});
+
+const externalNavItems = computed(() => {
+  return navItems.value.filter(item => item.isExternal);
+});
+
 onMounted(async () => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/api/is/navitems/'); 
     if (response.data && response.data.length > 0) {
+      // 确保电影链接存在
+      const movieItem = response.data.find(item => item.text === '电影');
+      if (!movieItem) {
+        response.data.push({ 
+          text: '电影', 
+          url: 'http://127.0.0.1:8000/movies/', 
+          isExternal: true 
+        });
+      } else {
+        // 修改已有的电影链接为外部链接
+        movieItem.url = 'http://127.0.0.1:8000/movies/';
+        movieItem.isExternal = true;
+      }
       navItems.value = response.data;
     }
     console.log('Hamburger.vue - 从 API 获取的导航数据:', navItems.value);

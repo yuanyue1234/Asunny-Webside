@@ -45,8 +45,18 @@ const router = createRouter({
   ]
 })
 
-// 路由守卫
-router.beforeEach(async (to, from, next) => {
+// 添加导航守卫处理外部链接
+router.beforeEach((to, from, next) => {
+  // 处理电影相关的路由
+  if (to.path === '/movies') {
+    window.location.href = 'http://127.0.0.1:8000/movies/';
+    return;
+  }
+  if (to.path === '/movies/chart') {
+    window.location.href = 'http://127.0.0.1:8000/movies/chart/';
+    return;
+  }
+  
   const authStore = useAuthStore()
   
   // 检查是否需要认证
@@ -59,7 +69,7 @@ router.beforeEach(async (to, from, next) => {
     
     try {
       // 尝试获取用户信息来验证 token
-      await axios.get('/user/info/')
+      axios.get('/user/info/')
       next()
     } catch (error) {
       if (error.response?.status === 401) {
