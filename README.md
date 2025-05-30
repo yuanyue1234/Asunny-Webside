@@ -272,10 +272,19 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-6. 导入电影数据
+6. 导入数据
+
+电影数据
 ```bash
 python import_movies.py
 ```
+创建管理员账户
+```bash
+python manage.py createsuperuser
+```
+导入站点配置数据
+127.0.0.1:8000/admin/
+还有nav
 
 7. 启动开发服务器
 ```bash

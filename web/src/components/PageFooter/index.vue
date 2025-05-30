@@ -15,7 +15,41 @@ onMounted(async () => {
       console.error('Failed to fetch user info:', error)
     }
   }
+  
+  // 加载一言API
+  loadHitokoto()
+  
+  // 添加点击一言返回顶部的事件监听
+  setupHitokotoClickEvent()
 })
+
+// 加载一言API的函数
+const loadHitokoto = () => {
+  const script = document.createElement('script')
+  script.src = 'https://v1.hitokoto.cn/?encode=js&select=%23hitokoto'
+  script.defer = true
+  document.body.appendChild(script)
+}
+
+// 设置点击一言返回顶部的事件
+const setupHitokotoClickEvent = () => {
+  // 使用事件委托，将事件监听器添加到父元素
+  document.addEventListener('click', (e) => {
+    // 检查点击的元素或其父元素是否是hitokoto_text
+    let target = e.target;
+    while (target) {
+      if (target.id === 'hitokoto_text') {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+        break;
+      }
+      target = target.parentElement;
+    }
+  });
+}
 </script>
 <template>
   <div class="page-footer">
@@ -23,9 +57,11 @@ onMounted(async () => {
     <div class="hitokoto-container">
         <div class="hitokoto-text">
           <span>
+            "
             <span id="hitokoto">
-              <a href="#" id="hitokoto_text">"你只活一次."</a>
+              <a href="javascript:void(0);" id="hitokoto_text">"你只活一次"</a>
             </span>
+            "
           </span>
         </div>
       </div>
@@ -53,6 +89,8 @@ onMounted(async () => {
     margin: var(--spacing-lg) 0;
     padding: var(--spacing-md);
     transition: all var(--transition-normal);
+    position: relative; /* 添加定位 */
+    z-index: 10; /* 提高层级 */
 }
 
 #hitokoto_text {
@@ -64,6 +102,9 @@ onMounted(async () => {
     font-size: var(--font-size-lg);
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--border-radius-md);
+    cursor: pointer; /* 添加指针样式 */
+    position: relative; /* 添加定位 */
+    z-index: 20; /* 提高层级 */
 }
 
 #hitokoto_text:hover {

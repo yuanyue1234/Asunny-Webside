@@ -93,7 +93,7 @@ const handleLogin = async () => {
     
     // 使用 auth store 存储认证信息
     authStore.setAuth(
-      response.data.access,
+      response.data.token,  // 后端返回的是 token 而不是 access
       response.data.refresh,
       response.data.username
     )

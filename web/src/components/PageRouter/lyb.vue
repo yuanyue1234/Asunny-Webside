@@ -110,9 +110,8 @@ onMounted(async () => {
 </script>
 
 <template>
-
-    <div class="row">
-      <div class="col-md-8">
+    <div class="lyb-container">
+      <div class="lyb-main">
         <div class="showcase">
           <div class="showcase-item">
             <table class="table">
@@ -152,27 +151,35 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="lyb-sidebar">
         <div class="showcase">
           <div class="showcase-item">
             <div class="showcase-title">添加留言</div>
             <div class="showcase-content">
-              <input type="hidden" v-model="state.lyb.url">
-              <div class="form-group">
-                <label><i class="fas fa-heading"></i> 标题</label>
-                <input type="text" id="title" class="form-control" v-model="state.lyb.title" placeholder="请输入标题" required>
-              </div>
-              <div class="form-group">
-                <label><i class="fas fa-user"></i> 用户名</label>
-                <input type="text" id="anthor" class="form-control" v-model="state.lyb.author" placeholder="请输入您的用户名" required>
-              </div>
-              <div class="form-group">
-                <label><i class="fas fa-file-alt"></i> 内容</label>
-                <textarea class="form-control" id="content" v-model="state.lyb.content" rows="6" style="min-height: 100px; resize: vertical;" placeholder="请输入留言内容" required></textarea>
-              </div>
-              <button type="submit" class="btn w-100" @click="savelyb">
-                <i class="fas fa-paper-plane"></i> 提交
-              </button>
+              <form class="lyb-form" @submit.prevent="savelyb">
+                <input type="hidden" v-model="state.lyb.url">
+                
+                <div class="form-group">
+                  <label class="form-label" for="title"><i class="fas fa-heading"></i> 标题</label>
+                  <input type="text" id="title" class="form-control" v-model="state.lyb.title" placeholder="请输入标题" required>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label" for="author"><i class="fas fa-user"></i> 用户名</label>
+                  <input type="text" id="author" class="form-control" v-model="state.lyb.author" placeholder="请输入您的用户名" required>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label" for="content"><i class="fas fa-file-alt"></i> 内容</label>
+                  <textarea id="content" class="form-control" v-model="state.lyb.content" rows="6" placeholder="请输入留言内容" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                  <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> 提交
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -181,34 +188,147 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-/* Main container background */
-.row {
+/* 重置一些基本样式，防止外部样式干扰 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
+/* 主容器布局 */
+.lyb-container {
+  display: flex;
+  width: 100%;
+  gap: 20px;
   padding: 20px;
-  border-radius: 8px;
   margin: 0;
 }
 
-/* Ensure the background covers the full width */
-:deep(.container) {
-  max-width: 100%;
+.lyb-main {
+  flex: 2;
+}
+
+.lyb-sidebar {
+  flex: 1;
+}
+
+/* 展示区样式 */
+.showcase {
+  background-color: var(--md-sys-color-surface);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.showcase-item {
+  margin-top: 0px  !important;
+  margin-bottom: 0px  !important;
+  padding: 20px;
+}
+
+.showcase-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: var(--md-sys-color-on-surface);
+  padding-bottom: 10px;
+}
+
+.showcase-content {
   padding: 0;
 }
+
+/* 表单样式 */
+.lyb-form {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.form-label {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+  color: var(--md-sys-color-on-surface);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.form-label i {
+  margin-right: 6px;
+  color: var(--md-sys-color-primary);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 12px;
+  background-color: var(--md-sys-color-surface-variant);
+  border: none;
+  border-radius: 8px;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 2px var(--md-sys-color-primary-container);
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+}
+
+.form-control::placeholder {
+  color: var(--md-sys-color-on-surface-variant);
+  opacity: 0.7;
+}
+
+textarea.form-control {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.submit-btn:active {
+  transform: translateY(1px);
+}
+
+/* 表格样式 */
 .table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 16px; /* 每行之间添加间距，形成"卡片感" */
+  border-spacing: 0 16px;
   background-color: transparent;
 }
-.showcase{
-  background-color: var(--md-sys-color-background);
-}
-.showcase-content {
-    justify-content: left !important;
-}
+
 .table tbody tr {
   display: block;
-  background-color: var(--md-sys-color-surface);
+  background-color: var(--md-sys-color-surface-variant);
   border-radius: 12px;
   padding: 16px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -228,22 +348,26 @@ onMounted(async () => {
   color: var(--md-sys-color-on-surface);
 }
 
-.table tbody td strong {
-  display: inline-block;
-  min-width: 80px;
+.table-title {
   font-weight: 500;
-  color: var(--md-sys-color-on-surface-variant);
+}
+
+.table-author {
+  font-style: italic;
+}
+
+.table-content {
+  margin-top: 8px;
 }
 
 .table thead {
-  display: none; /* 隐藏表头，评论风格不需要列标题 */
+  display: none;
 }
-
-
 
 .content-cell {
   position: relative;
   word-break: break-word;
+  color: var(--md-sys-color-on-surface);
 }
 
 .expand-btn {
@@ -252,6 +376,9 @@ onMounted(async () => {
   color: var(--md-sys-color-primary);
   text-decoration: none;
   font-size: 0.9em;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .expand-btn:hover {
@@ -259,127 +386,42 @@ onMounted(async () => {
   text-decoration: underline;
 }
 
-.form-group {
-  margin-bottom: 16px;
-}
-
-/* 表单控件样式 */
-.form-control {
-    background-color: var(--md-sys-color-surface);
-    border: 1px solid var(--md-sys-color-outline);
-    border-radius: var(--border-radius-md);
-    padding: var(--spacing-md);
-    width: 100%;
-    color: var(--md-sys-color-on-surface);
-    font-size: var(--font-size-md);
-    transition: all var(--transition-normal);
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: var(--md-sys-color-primary);
-    box-shadow: 0 0 0 2px var(--md-sys-color-primary-container);
-    background-color: var(--md-sys-color-surface);
-    color: var(--md-sys-color-on-surface);
-}
-
-.form-control::placeholder {
-    color: var(--md-sys-color-outline);
-}
-
-/* 表单组样式 */
-.form-group {
-    margin-bottom: var(--spacing-lg);
-}
-
-.form-label {
-    display: block;
-    margin-bottom: var(--spacing-sm);
-    color: var(--md-sys-color-on-surface);
-    font-size: var(--font-size-sm);
-    font-weight: 500;
-}
-
-.form-text {
-    display: block;
-    margin-top: var(--spacing-xs);
-    color: var(--md-sys-color-outline);
-    font-size: var(--font-size-sm);
-}
-
-/* 表单验证状态 */
-.form-control.is-invalid {
-    border-color: #dc3545;
-    background-color: color-mix(in srgb, var(--md-sys-color-surface) 95%, #dc3545 5%);
-}
-
-.form-control.is-valid {
-    border-color: #198754;
-    background-color: color-mix(in srgb, var(--md-sys-color-surface) 95%, #198754 5%);
-}
-
-.invalid-feedback {
-    display: block;
-    margin-top: var(--spacing-xs);
-    color: #dc3545;
-    font-size: var(--font-size-sm);
-}
-
-.valid-feedback {
-    display: block;
-    margin-top: var(--spacing-xs);
-    color: #198754;
-    font-size: var(--font-size-sm);
-}
-.btn {
-  background-color: var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-primary);
-  border: none;
-  border-radius: 8px;
-  padding: 12px 24px;
-  transition: background-color 0.3s, box-shadow 0.3s;
-}
-
-.btn:hover {
-  background-color: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
 .btn-sm {
   padding: 8px;
   border-radius: 4px;
-
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .btn-sm:hover {
-  background-color: var(--md-sys-color-secondary);
-  color: var(--md-sys-color-on-secondary);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  transform: translateY(-1px);
 }
 
-.row {
-  margin: 0;
-  margin: 16px 0;
-  display: flex;
-  flex-wrap: wrap;
+.btn-sm:active {
+  transform: translateY(0);
 }
 
-.col-md-8 {
-  padding:0;
-  flex: 0 0 66.666667%;
-  max-width: 66.666667%;
+.me-2 {
+  margin-right: 8px;
 }
 
-.col-md-4 {
-  padding:0;
-  flex: 0 0 33.333333%;
-  max-width: 33.333333%;
-}
-
+/* 响应式布局 */
 @media (max-width: 768px) {
-  .col-md-8, .col-md-4 {
-    flex: 0 0 100%;
-    max-width: 100%;
+  .lyb-container {
+    flex-direction: column;
+  }
+  
+  .lyb-main, .lyb-sidebar {
+    width: 100%;
+  }
+  
+  .lyb-sidebar {
+    margin-top: 20px;
   }
 }
 </style>

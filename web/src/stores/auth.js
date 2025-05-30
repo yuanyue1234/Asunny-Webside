@@ -42,23 +42,42 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async refreshAccessToken() {
+      // 检查是否有刷新令牌
+      if (!this.refreshToken) {
+        console.error('没有刷新令牌可用');
+        this.clearAuth();
+        router.push('/login');
+        throw new Error('没有刷新令牌可用');
+      }
+
       try {
+        console.log('尝试刷新令牌，当前刷新令牌:', this.refreshToken);
+        
+        // 使用原始axios实例而不是拦截器处理的实例，避免循环
         const response = await axios.post('/token/refresh/', {
           refresh: this.refreshToken
-        })
+        });
         
-        const { access } = response.data
-        this.token = access
-        localStorage.setItem('token', access)
+        console.log('令牌刷新成功:', response.data);
+        
+        // 处理可能的不同键名 (access 或 token)
+        const newToken = response.data.access || response.data.token;
+        if (!newToken) {
+          throw new Error('刷新令牌响应中没有找到新的访问令牌');
+        }
+        
+        this.token = newToken;
+        localStorage.setItem('token', newToken);
         
         // 更新 axios 默认头
-        axios.defaults.headers.common['Authorization'] = `Bearer ${access}`
+        axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
         
-        return access
+        return newToken;
       } catch (error) {
-        this.clearAuth()
-        router.push('/login')
-        throw error
+        console.error('刷新令牌失败:', error.response?.data || error.message);
+        this.clearAuth();
+        router.push('/login');
+        throw error;
       }
     }
   }

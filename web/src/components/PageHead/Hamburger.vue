@@ -27,7 +27,6 @@ const toggleMenu = () => {
 const defaultNavItems = [
   { text: '首页', url: '/' },
   { text: '留言', url: '/lyb' },
-  { text: '电影', url: 'http://127.0.0.1:8000/movies/', isExternal: true },
   { text: '简介', url: '/my' }
 ];
 
@@ -46,19 +45,7 @@ onMounted(async () => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/api/is/navitems/'); 
     if (response.data && response.data.length > 0) {
-      // 确保电影链接存在
-      const movieItem = response.data.find(item => item.text === '电影');
-      if (!movieItem) {
-        response.data.push({ 
-          text: '电影', 
-          url: 'http://127.0.0.1:8000/movies/', 
-          isExternal: true 
-        });
-      } else {
-        // 修改已有的电影链接为外部链接
-        movieItem.url = 'http://127.0.0.1:8000/movies/';
-        movieItem.isExternal = true;
-      }
+      // 直接使用API返回的导航项
       navItems.value = response.data;
     }
     console.log('Hamburger.vue - 从 API 获取的导航数据:', navItems.value);
