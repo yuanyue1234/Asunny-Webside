@@ -41,12 +41,15 @@ const externalNavItems = computed(() => {
   return navItems.value.filter(item => item.isExternal);
 });
 
-onMounted(async () => {
+const fetchNavItems = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/is/navitems/'); 
-    if (response.data && response.data.length > 0) {
-      // 直接使用API返回的导航项
-      navItems.value = response.data;
+    const response = await axios.get('/api/is/navitems/');
+    if (response.data && response.data.results) {
+      navItems.value = response.data.results.map(item => ({
+        text: item.text,
+        url: item.url,
+        isExternal: item.isExternal
+      }));
     }
     console.log('Hamburger.vue - 从 API 获取的导航数据:', navItems.value);
   } catch (error) {
@@ -54,7 +57,9 @@ onMounted(async () => {
     // 如果 API 请求失败，使用默认导航项
     navItems.value = defaultNavItems;
   }
-});
+};
+
+onMounted(fetchNavItems);
 </script>
 
 <style scoped>

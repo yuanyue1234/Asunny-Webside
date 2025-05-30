@@ -270,6 +270,9 @@ DATABASES = {
 ```bash
 python manage.py makemigrations
 python manage.py migrate
+
+迁移静态文件
+python manage.py collectstatic
 ```
 
 6. 导入数据

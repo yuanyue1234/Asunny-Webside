@@ -41,6 +41,22 @@ const router = createRouter({
       path: '/my',
       name: 'My',
       component: my
+    },
+    {
+      path: '/movies',
+      name: '豆瓣电影',
+      beforeEnter: (to, from, next) => {
+        // 跳转到Django后端渲染的电影列表页面
+        window.location.href = '/movies/';
+      }
+    },
+    {
+      path: '/chart',
+      name: '电影图表',
+      beforeEnter: (to, from, next) => {
+        // 跳转到Django后端渲染的电影图表页面
+        window.location.href = '/movies/chart/';
+      }
     }
   ]
 })
