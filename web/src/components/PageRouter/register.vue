@@ -54,7 +54,7 @@ const handleRegister = async () => {
   if (!validateForm()) return
   
   try {
-    const response = await axios.post('http://localhost:8000/api/is/register/', {
+    const response = await axios.post('/api/is/register/', {
       username: username.value,
       password: password.value,
       email: email.value

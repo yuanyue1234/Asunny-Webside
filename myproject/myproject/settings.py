@@ -138,7 +138,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Optional: Directories where Django will look for additional static files
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / 'staticfiles',
 ]
 
 # Default primary key field type
