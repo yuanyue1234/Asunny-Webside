@@ -14,7 +14,9 @@
 - MySQL 8.0+
 - 操作系统: Windows 10/11, Linux, macOS
 
-### 安装步骤
+若是安装在liunx服务器上，查看文档:https://iifqv8owatt.feishu.cn/wiki/AKsFwYdeBiqCA2kq30HcdUXPn8f
+
+### 本地安装步骤
 
 1. 克隆项目代码
 ```bash
