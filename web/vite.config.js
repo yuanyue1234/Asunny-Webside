@@ -13,7 +13,7 @@ export default defineConfig({
     proxy: {
       // 代理所有以 /api 开头的请求
       '/api': {
-        target: 'http://8.135.33.2:8000', // 后端服务实际地址
+        target: 'http://127.0.0.1:8000', // 后端服务实际地址
         changeOrigin: true, // 需要虚拟主机站点
         // secure: false, // 如果是https接口，需要配置这个
         // 如果后端API路径没有 /api 前缀，可以在这里重写
@@ -22,7 +22,7 @@ export default defineConfig({
       // 代理 /movies 和 /movies/chart
       // 这些是直接由 Django 渲染的页面，不是 API，但开发时也需要代理
       '/movies': {
-        target: 'http://8.135.33.2:8000',
+        target: 'http://127.0.0.1:8000',
         changeOrigin: true,
       },
       // 如果还有其他直接由 Django 服务的路径，也需要类似添加

@@ -1,5 +1,92 @@
 # 基于Django和 vue3 的综合个人网站管理系统-豆瓣电影分析与个人网站的设计与实现
 
+
+
+
+## 作者
+阿晴_asunny-袁越
+
+
+## 安装与部署
+
+### 环境要求
+- Python 3.8+
+- MySQL 8.0+
+- 操作系统: Windows 10/11, Linux, macOS
+
+### 安装步骤
+
+1. 克隆项目代码
+```bash
+git clone git@github.com:yuanyue1234/personaldemo.git
+cd myproject
+```
+
+2. 创建并激活虚拟环境
+```bash
+python -m venv .venv
+# Windows
+.venv\Scripts\activate
+# Linux/macOS
+source .venv/bin/activate
+```
+
+3. 安装依赖
+```bash
+pip install -r requirements.txt
+```
+
+4. 配置数据库
+编辑 `myproject/settings.py` 文件，配置数据库连接信息：
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'myproject',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+        },
+    }
+}
+```
+
+5. 执行数据库迁移
+```bash
+python manage.py makemigrations
+python manage.py migrate
+
+迁移静态文件
+python manage.py collectstatic
+```
+
+6. 导入数据
+
+电影数据
+```bash
+python import_movies.py
+```
+创建管理员账户
+```bash
+python manage.py createsuperuser
+```
+导入站点配置数据
+127.0.0.1:8000/admin/
+
+7. 启动前后端开发服务器(pc端)
+```bash
+cd .. & ./start.sh
+```
+
+
+8. 访问系统
+在浏览器中访问 http://127.0.0.1:8000/movies/ 查看电影列表页面。
+
+
 ## 项目概述
 
 本项目是一个基于Django框架开发的综合性Web应用系统，主要包含豆瓣Top250电影数据分析展示系统和个人网站功能。系统采用前后端分离的架构设计，后端使用Django REST Framework提供API接口，前端使用HTML、CSS、JavaScript和Bootstrap构建用户界面。项目整合了数据可视化、用户认证、留言互动等多种功能，为用户提供全面的Web应用体验。
@@ -218,85 +305,6 @@ class SiteProfile(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
 ```
 
-## 安装与部署
-
-### 环境要求
-- Python 3.8+
-- MySQL 8.0+
-- 操作系统: Windows 10/11, Linux, macOS
-
-### 安装步骤
-
-1. 克隆项目代码
-```bash
-git clone <repository-url>
-cd myproject
-```
-
-2. 创建并激活虚拟环境
-```bash
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# Linux/macOS
-source .venv/bin/activate
-```
-
-3. 安装依赖
-```bash
-pip install -r requirements.txt
-```
-
-4. 配置数据库
-编辑 `myproject/settings.py` 文件，配置数据库连接信息：
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myproject',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': 'utf8mb4',
-        },
-    }
-}
-```
-
-5. 执行数据库迁移
-```bash
-python manage.py makemigrations
-python manage.py migrate
-
-迁移静态文件
-python manage.py collectstatic
-```
-
-6. 导入数据
-
-电影数据
-```bash
-python import_movies.py
-```
-创建管理员账户
-```bash
-python manage.py createsuperuser
-```
-导入站点配置数据
-127.0.0.1:8000/admin/
-还有nav
-
-7. 启动开发服务器
-```bash
-python manage.py runserver
-```
-
-8. 访问系统
-在浏览器中访问 http://127.0.0.1:8000/movies/ 查看电影列表页面。
-
 ## 项目特点
 
 1. **模块化设计**: 系统分为电影展示、留言板、站点配置三个主要模块，各模块功能独立，便于维护和扩展。
@@ -312,14 +320,3 @@ python manage.py runserver
 6. **单例模式**: 站点配置模块采用单例模式，确保全局配置的一致性。
 
 7. **懒加载技术**: 电影列表页面实现图片懒加载，提高页面加载速度和用户体验。
-
-## 未来展望
-
-1. 添加用户评论和评分功能
-2. 实现更多数据分析和可视化功能
-3. 优化移动端体验
-4. 添加电影推荐系统
-5. 集成社交媒体分享功能
-
-## 作者
-阿晴_asunny-袁越
