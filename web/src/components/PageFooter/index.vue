@@ -57,11 +57,11 @@ const setupHitokotoClickEvent = () => {
     <div class="hitokoto-container">
         <div class="hitokoto-text">
           <span>
-            "
+            
             <span id="hitokoto">
               <a href="javascript:void(0);" id="hitokoto_text">"你只活一次"</a>
             </span>
-            "
+            
           </span>
         </div>
       </div>
