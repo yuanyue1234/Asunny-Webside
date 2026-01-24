@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>豆瓣电影分析与个人网站系统功能结构图</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: white;
+        }
+        
+        .diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        
+        .box {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+            background: white;
+            font-size: 14px;
+        }
+        
+        .main-box {
+            width: 300px;
+            margin-bottom: 20px;
+        }
+        
+        .level2-container {
+            display: flex;
+            gap: 0;
+            margin-bottom: 20px;
+        }
+        
+        .level2-box {
+            width: 120px;
+            margin-right: 20px;
+        }
+        
+        .level2-box:last-child {
+            margin-right: 0;
+        }
+        
+        .level3-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .level3-group {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+        
+        .level3-box {
+            width: 80px;
+        }
+        
+        .line-vertical {
+            width: 1px;
+            height: 20px;
+            background: black;
+        }
+        
+        .line-horizontal {
+            height: 1px;
+            background: black;
+            width: 100%;
+        }
+        
+        .connector-horizontal {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 520px;
+            margin-bottom: 20px;
+        }
+        
+        .connector-part {
+            height: 1px;
+            background: black;
+            flex: 1;
+        }
+        
+        .connector-vertical {
+            width: 1px;
+            height: 20px;
+            background: black;
+            margin: 0 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="diagram">
+        <!-- 主系统 -->
+        <div class="box main-box">豆瓣电影分析与个人网站系统</div>
+        
+        <!-- 垂直连接线 -->
+        <div class="line-vertical"></div>
+        
+        <!-- 二级功能模块 -->
+        <div class="level2-container">
+            <div class="box level2-box">电影分析模块</div>
+            <div class="box level2-box">用户管理模块</div>
+            <div class="box level2-box">留言板模块</div>
+            <div class="box level2-box">系统管理模块</div>
+        </div>
+        
+        <!-- 三级功能模块 -->
+        <div class="level3-container">
+            <div class="level3-group">
+                <div class="box level3-box">电影展示</div>
+                <div class="box level3-box">数据可视化</div>
+            </div>
+            <div class="level3-group">
+                <div class="box level3-box">用户注册登录</div>
+                <div class="box level3-box">JWT认证</div>
+            </div>
+            <div class="level3-group">
+                <div class="box level3-box">留言管理</div>
+                <div class="box level3-box">留言API</div>
+            </div>
+            <div class="level3-group">
+                <div class="box level3-box">站点配置</div>
+                <div class="box level3-box">后台管理</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

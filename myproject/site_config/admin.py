@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import SiteProfile # 确保导入 SiteProfile
+from .models import SiteProfile  # 确保导入 SiteProfile
+
 
 @admin.register(SiteProfile)
 class SiteProfileAdmin(admin.ModelAdmin):
@@ -14,10 +15,8 @@ class SiteProfileAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         # 由于 get_solo() 会自动创建实例，这里总是返回 False 避免通过 Admin 创建多个
         # 或者，如果 SiteProfile.objects.count() >= 1，则返回 False
-        return not SiteProfile.objects.exists() # 只有在还没有任何记录时才允许添加第一个
+        return not SiteProfile.objects.exists()  # 只有在还没有任何记录时才允许添加第一个
 
     def has_delete_permission(self, request, obj=None):
         # 通常不允许删除这个唯一的配置项
         return False
-
-# 移除了原始的 # Register your models here.

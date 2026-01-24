@@ -1,152 +1,236 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>豆瓣Top 250电影数据分析</title>
-    <!-- 引入 Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- 引入 pyecharts 必需的 JavaScript 文件 -->
-    <script src="https://cdn.jsdelivr.net/npm/echarts@latest/dist/echarts.min.js"></script>
-    <!-- 引入 Smooth Scroll JS 库 -->
-    <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.polyfills.min.js"></script>
+    <title>豆瓣 Top250 数据分析</title>
+
+    <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+    <script src="{% static 'js/echarts.min.js' %}"></script>
+    <script src="{% static 'js/smooth-scroll.polyfills.min.js' %}"></script>
+
     <style>
-        body {
-            font-family: '微软雅黑', sans-serif;
+        body, html {
+            height: 100%;
+            background-color: #eff3f6; /* 保持与 Index 一致的背景 */
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            overflow: hidden; /* 防止整个页面滚动，只滚动内容区 */
         }
-        .section {
-            padding: 2rem 0;
-            height: 100vh;
+
+        /* 布局容器 */
+        .dashboard-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
+            height: 100vh;
         }
 
-        .intro {
-            padding: 4rem 2rem;
-            background-color: #f5f5f5;
-            text-align: center;
-        }
 
-        .intro p {
-            font-size: 1.5rem;
-            color: #606060;
-        }
-
-        .notification {
-            display: none; /* 默认隐藏 */
-            background-color: #ffdddd;
-            color: #d8000c;
+        /* 左侧侧边栏 */
+        .sidebar {
+            width: 260px;
+            background: white;
+            border-right: 1px solid #eaeaea;
+            display: flex;
+            flex-direction: column;
             padding: 20px;
-            margin: 20px 0;
-            border-left: 6px solid #d8000c;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.02);
+            z-index: 10;
         }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .menu-list a {
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: #666;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .menu-list a:hover {
+            background-color: #f5f7fa;
+            color: #3273dc;
+        }
+
+        .menu-list a.is-active {
+            background-color: #e8f0fe;
+            color: #3273dc;
+            font-weight: 600;
+        }
+
+        /* 底部返回按钮区 */
+        .sidebar-footer {
+            margin-top: auto;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 20px;
+        }
+
+        /* 右侧内容区 */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            scroll-behavior: smooth;
+        }
+
+        /* 图表卡片 */
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            margin-bottom: 30px;
+            /* 确保锚点跳转时有偏移 */
+            scroll-margin-top: 30px;
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 4px solid #3273dc;
+        }
+
+        .chart-box {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        /* 自定义滚动条 */
+        .main-content::-webkit-scrollbar { width: 8px; }
+        .main-content::-webkit-scrollbar-track { background: #f1f1f1; }
+        .main-content::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
     </style>
 </head>
-
 <body>
-    <!-- 导航栏 -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                豆瓣Top 250电影数据分析
+
+<div class="dashboard-container">
+
+    <!-- 左侧常驻侧边栏 -->
+    <aside class="sidebar">
+        <!-- Brand 区域：保持与主页 Logo 一致 -->
+        <div class="sidebar-brand">
+            <img src="https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/ico%E5%9B%BE%E6%A0%87.ico"
+                 alt="Logo" style="width: 35px; border-radius: 50%;">
+            <span>数据分析台</span>
+        </div>
+
+        <p class="menu-label" style="font-size:0.8rem; color:#aaa; margin-bottom:10px;">图表导航</p>
+        <ul class="menu-list">
+            <li><a href="#pie_chart"><i class="fas fa-globe-asia"></i> 国家分布</a></li>
+            <li><a href="#scatter_chart_html"><i class="fas fa-star-half-alt"></i> 评分分布</a></li>
+            <li><a href="#bar_year_chart"><i class="fas fa-calendar-alt"></i> 年代统计</a></li>
+            <li><a href="#bar_tag_chart"><i class="fas fa-tags"></i> 标签词云</a></li>
+            <li><a href="#pie_score_chart"><i class="fas fa-trophy"></i> Top20 评分</a></li>
+            <li><a href="#bar3D_tag_year_count_chart"><i class="fas fa-cube"></i> 3D 全景视图</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <a href="{% url 'index' %}" class="button is-fullwidth is-outlined" style="border-color: #dbdbdb;">
+                <span class="icon"><i class="fas fa-arrow-left"></i></span>
+                <span>返回电影列表</span>
             </a>
+            <a href="https://video.451024.xyz/" target="_blank" class="button is-fullwidth is-warning" style="margin-top: 10px; color: white;">
+                <span class="icon"><i class="fas fa-video"></i></span>
+                <span>影视搜索</span>
+            </a>
+        </div>
+    </aside>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <!-- 右侧滚动内容区 -->
+    <main class="main-content" id="main-scroll">
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#pie_chart">国家电影数量</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#scatter_chart_html">电影评分分布</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#bar_year_chart">年代电影数量</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#bar_tag_chart">标签电影数量</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#pie_score_chart">top20电影评分</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#bar3D_tag_year_count_chart">国家年代评分分布</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <a href="https://movie.douban.com/top250?start=0&filter=" class="nav-link me-3" title="豆瓣用户每天都在对"看过"的电影进行"很差"到"力荐"的评价，豆瓣根据每部影片看过的人数以及该影片所得的评价等综合数据，通过算法分析产生豆瓣电影 Top 250。">数据源</a>
-                    <a href="{% url 'index' %}" class="nav-link">返回主页</a>
-                </div>
+        <h1 class="title is-4" style="color:#4a4a4a;">可视化报表</h1>
+        <p class="subtitle is-6" style="color:#888; margin-bottom: 30px;">
+            基于豆瓣 Top250 实时数据的多维度分析。
+        </p>
+
+        <!-- 1. 国家分布 -->
+        <div id="pie_chart" class="chart-card">
+            <div class="chart-title">各国家/地区电影占比</div>
+            <div class="chart-box">
+                {{ pie_chart_html|safe }}
             </div>
         </div>
-    </nav>
 
-    <!-- 介绍部分 -->
-    <section class="intro">
-        <div class="container">
-            <h1 class="display-4">豆瓣Top250电影数据分析</h1>
-            <p class="lead">通过多个图表展示电影的评分、年代、国家和标签分布，帮助您更好地了解这些经典影片的特征。</p>
+        <!-- 2. 评分分布 -->
+        <div id="scatter_chart_html" class="chart-card">
+            <div class="chart-title">电影评分散点分布</div>
+            <div class="chart-box">
+                {{ scatter_chart_html|safe }}
+            </div>
         </div>
-    </section>
 
-    <!-- 移动设备提示 -->
-    <div class="notification" id="mobile-notification">
-        请使用电脑访问本页面以获得更好的体验！
-    </div>
+        <!-- 3. 年代统计 -->
+        <div id="bar_year_chart" class="chart-card">
+            <div class="chart-title">各年代上榜电影数量</div>
+            <div class="chart-box">
+                {{ bar_year_chart_html|safe }}
+                {{ bar_year_chart_html_1|safe }}
+            </div>
+        </div>
 
-    <!-- 内容部分 -->
-    <div class="container" id="content">
-        <div id="pie_chart" class="section">
-            {{ pie_chart_html|safe }}
+        <!-- 4. 标签统计 -->
+        <div id="bar_tag_chart" class="chart-card">
+            <div class="chart-title">电影类型与标签统计</div>
+            <div class="chart-box">
+                {{ bar_tag_chart_html|safe }}
+                {{ bar_tag_chart_html_1|safe }}
+            </div>
         </div>
-        <div id="scatter_chart_html" class="section">
-            {{ scatter_chart_html|safe }}
-        </div>
-        <div id="bar_year_chart" class="section">
-            {{ bar_year_chart_html|safe }}
-            {{ bar_year_chart_html_1|safe }}
-        </div>
-        <div id="bar_tag_chart" class="section">
-            {{ bar_tag_chart_html|safe }}
-            {{ bar_tag_chart_html_1|safe }}
-        </div>
-        <div id="pie_score_chart" class="section">
-            {{ pie_score_chart_html|safe }}
-            {{ pie_score_chart_html_1|safe }}
-        </div>
-        <div id="bar3D_tag_year_count_chart" class="section">
-            {{ bar3D_tag_year_count_chart_html|safe }}
-        </div>
-    </div>
 
-    <!-- Bootstrap JS 和依赖 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- 自定义 JavaScript 实现平滑滚动 -->
-    <script>
-        // 检测是否是移动设备
-        function isMobileDevice() {
-            return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-        }
+        <!-- 5. Top20 评分 -->
+        <div id="pie_score_chart" class="chart-card">
+            <div class="chart-title">Top 20 电影评分</div>
+            <div class="chart-box">
+                {{ pie_score_chart_html|safe }}
+                {{ pie_score_chart_html_1|safe }}
+            </div>
+        </div>
 
-        if (isMobileDevice()) {
-            // 显示移动设备提示并隐藏内容
-            document.getElementById('mobile-notification').style.display = 'block';
-            document.getElementById('content').style.display = 'none';
-        }
+        <!-- 6. 3D 视图 -->
+        <div id="bar3D_tag_year_count_chart" class="chart-card">
+            <div class="chart-title">国家-年代-评分 三维分布</div>
+            <div class="chart-box">
+                {{ bar3D_tag_year_count_chart_html|safe }}
+            </div>
+        </div>
 
-        // 初始化 Smooth Scroll
-        var scroll = new SmoothScroll('a[href*="#"]', {
-            speed: 400, // 滚动速度（以毫秒为单位）
-            offset: 60, // 偏移量，用于调整目标位置
+        <div style="height: 50px; text-align: center; color: #ccc;">
+            - End of Report -
+        </div>
+    </main>
+</div>
+
+<script>
+    // 初始化平滑滚动，绑定到侧边栏链接
+    // 注意：因为内容是在 .main-content 内部滚动，而不是 window 滚动，
+    // 需要稍微自定义一下，或者依赖 CSS scroll-behavior: smooth (已添加)
+
+    // 简单的 Active 状态切换
+    const menuLinks = document.querySelectorAll('.menu-list a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            menuLinks.forEach(l => l.classList.remove('is-active'));
+            this.classList.add('is-active');
         });
-    </script>
+    });
+</script>
 </body>
 </html>

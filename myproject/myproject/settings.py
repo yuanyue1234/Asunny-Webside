@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-quc)_!+(vgrc2j%o=pf&k4i%j17o3=m(&y!r&omduuozuhb-#d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']  # 允许所有主机访问
 
@@ -87,11 +87,11 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myproject',          # 数据库名
-        'USER': 'root',       # 用户名
-        'PASSWORD': 'root', # 密码
-        'HOST': '127.0.0.1',             # 数据库地址（本机就是 localhost）
-        'PORT': '3306',                  # 默认端口
+        'NAME': 'myproject',  # 数据库名
+        'USER': 'root',  # 用户名
+        'PASSWORD': 'root',  # 密码
+        'HOST': '127.0.0.1',  # 数据库地址（本机就是 localhost）
+        'PORT': '3306',  # 默认端口
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'charset': 'utf8mb4',

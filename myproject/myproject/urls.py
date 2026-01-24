@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/is/', include('lyb.urls')), # 包含 lyb app 的所有 URL
-    path('api/is/site/', include('site_config.urls')), # 新增 site_config  站点配置 的 URL
-    path('movies/', include('movies.urls')), # 添加电影应用的 URL
+    path('api/is/', include('lyb.urls')),  # 包含 lyb app 的所有 URL
+    path('api/is/site/', include('site_config.urls')),  # 新增 site_config  站点配置 的 URL
+    path('movies/', include('movies.urls')),  # 添加电影应用的 URL
 ]

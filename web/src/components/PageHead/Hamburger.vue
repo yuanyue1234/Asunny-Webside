@@ -1,4 +1,4 @@
-<template> 
+<template>
   <div class="nav-container">
     <div class="theme-toggle menu-button" @click="toggleMenu">
       <i class="material-icons">menu</i>
@@ -7,13 +7,13 @@
       <router-link v-for="item in internalNavItems" :key="item.url" :to="item.url">{{ item.text }}</router-link>
       <a v-for="item in externalNavItems" :key="item.url" :href="item.url" target="_blank">{{ item.text }}</a>
     </div>
-          <ThemeToggle />
+    <ThemeToggle/>
 
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import {ref, onMounted, computed} from 'vue';
 import axios from 'axios';
 import ThemeToggle from './ThemeToggle.vue'
 
@@ -25,9 +25,9 @@ const toggleMenu = () => {
 
 // 默认导航项
 const defaultNavItems = [
-  { text: '首页', url: '/' },
-  { text: '留言', url: '/lyb' },
-  { text: '简介', url: '/my' }
+  {text: '首页', url: '/'},
+  {text: '留言', url: '/lyb'},
+  {text: '简介', url: '/my'}
 ];
 
 const navItems = ref(defaultNavItems);
@@ -43,7 +43,7 @@ const externalNavItems = computed(() => {
 
 onMounted(async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/is/navitems/'); 
+    const response = await axios.get('http://127.0.0.1:8000/api/is/navitems/');
     if (response.data && response.data.length > 0) {
       // 直接使用API返回的导航项
       navItems.value = response.data;
@@ -87,7 +87,8 @@ onMounted(async () => {
   display: flex;
   gap: 15px;
   align-items: center;
-  background-color: var(--md-sys-color-background);
+  //background-color: var(--md-sys-color-background);
+  background-color: color-mix(in srgb, var(--md-sys-color-surface), transparent 10%);
   color: var(--md-sys-color-on-surface);
   border-radius: 32px;
   padding: 5px 8px;
@@ -178,45 +179,45 @@ onMounted(async () => {
 :deep(.theme-toggle:hover) {
   transform: scale(1.1);
   background-color: var(--md-sys-color-surface-variant);
-  
-  
+
+
 }
 
 /* 下拉菜单样式 */
 .dropdown {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: var(--md-sys-color-surface);
-    min-width: 100px;
-    box-shadow: var(--shadow-md);
-    z-index: 1;
-    border-radius: var(--border-radius-md);
-    overflow: hidden;
-    padding: var(--spacing-sm) 0;
-    margin-top: var(--spacing-sm);
+  display: none;
+  position: absolute;
+  background-color: var(--md-sys-color-surface);
+  min-width: 100px;
+  box-shadow: var(--shadow-md);
+  z-index: 1;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  padding: var(--spacing-sm) 0;
+  margin-top: var(--spacing-sm);
 }
 
 .dropdown-content a {
-    color: var(--md-sys-color-on-surface);
-    padding: var(--spacing-md);
-    text-decoration: none;
-    display: block;
-    transition: background-color var(--transition-normal);
-    border-radius: var(--border-radius-sm);
-    margin: 0 var(--spacing-xs);
+  color: var(--md-sys-color-on-surface);
+  padding: var(--spacing-md);
+  text-decoration: none;
+  display: block;
+  transition: background-color var(--transition-normal);
+  border-radius: var(--border-radius-sm);
+  margin: 0 var(--spacing-xs);
 }
 
 .dropdown-content a:hover {
-    background-color: var(--md-sys-color-surface-variant);
+  background-color: var(--md-sys-color-surface-variant);
 }
 
 .dropdown:hover .dropdown-content {
-    display: block;
+  display: block;
 }
 
 .nav-toggle {
@@ -228,27 +229,27 @@ onMounted(async () => {
 }
 
 .theme-toggle {
-    background: none;
-    border: none;
-    color: var(--md-sys-color-on-surface);
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    transition: background-color 0.3s;
-    margin-right: 8px;
+  background: none;
+  border: none;
+  color: var(--md-sys-color-on-surface);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+  margin-right: 8px;
 }
 
 .theme-toggle:hover {
-    background-color: var(--md-sys-color-surface-variant);
+  background-color: var(--md-sys-color-surface-variant);
 }
 
 .theme-toggle i {
-    font-size: 24px;
+  font-size: 24px;
 }
 
 </style>

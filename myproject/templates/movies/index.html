@@ -1,315 +1,448 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top250_豆瓣电影数据展示</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="referrer" content="no-referrer">
+    <title>Top250 豆瓣电影数据展示</title>
+
+    <!-- 引用本地资源 -->
+    <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'movies/favicon.ico' %}">
-    
+
     <style>
-
         body {
-            font-family: '等线', sans-serif;
-        }
-
-        .table-container {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            background-color: #eff3f6;
+            color: #2c3e50;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            position: relative;
             overflow: hidden;
         }
-
-        .table-scroll-container {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
+                /* --- 分页区域修复版 --- */
+        .pagination-container {
+            /*background: white;*/
+            padding: 10px 20px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;             /* 确保容器本身是 flex */
+            justify-content: center;   /* 居中 */
+            align-items: center;
+            /*box-shadow: 0 -4px 15px rgba(0,0,0,0.02);*/
+            height: auto;              /* 防止占用过高 */
+            flex-shrink: 0;            /* 防止被压缩 */
         }
 
-        .table-container thead th {
-            position: sticky;
-            top: 0;
-            background: white;
+        /* 强制覆盖 Bulma 或默认样式 */
+        .pagination {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 !important;
+        }
+
+        /* 关键：强制列表横向排列，去掉黑点 */
+        .pagination-list {
+            display: flex !important;
+            flex-direction: row !important;
+            list-style: none !important; /* 去掉黑点 */
+            margin: 0 10px !important;
+            padding: 0 !important;
+            flex-wrap: nowrap !important;
+            gap: 5px; /* 按钮之间的间距 */
+        }
+
+        /* 确保每个 li 也是横向的 */
+        .pagination-list li {
+            list-style: none !important; /* 双重保险去掉黑点 */
+            margin: 0 !important;
+            padding: 0 !important;
+            display: inline-block !important;
+        }
+
+        /* 按钮样式优化 */
+        .pagination-link,
+        .pagination-previous,
+        .pagination-next {
+            display: inline-flex !important; /* 强制行内Flex布局 */
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e1e4e8;
+            background-color: #fff;
+            color: #586069;
+            border-radius: 4px;
+            font-size: 14px;
+            height: 32px;      /* 固定高度，防止太高 */
+            min-width: 32px;   /* 固定最小宽度 */
+            padding: 0 10px;
+            text-decoration: none !important;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            margin: 0 !important; /* 由 gap 控制间距 */
+        }
+
+        /* 悬停效果 */
+        .pagination-link:hover,
+        .pagination-previous:not([disabled]):hover,
+        .pagination-next:not([disabled]):hover {
+            border-color: #3273dc;
+            color: #3273dc;
+            background-color: #f0f6ff;
             z-index: 2;
         }
 
-        .table {
-            margin-bottom: 0;
-        }
-
-        .pagination-container {
-            padding: 10px 0;
-            background: white;
-        }
-
-        .notification {
-            display: none;
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 1000;
-        }
-
-        .movie-details {
-            display: block;
-            font-size: 1em;
-            color: #555;
-            margin-top: 5px;
-        }
-
-        .movie-title {
-            font-size: 1.2em;
+        /* 当前页高亮 */
+        .pagination-link.is-current {
+            background-color: #3273dc !important;
+            border-color: #3273dc !important;
+            color: #fff !important;
             font-weight: bold;
         }
 
-        .movie-row:hover {
+        /* 禁用状态 */
+        .pagination-previous[disabled],
+        .pagination-next[disabled] {
             background-color: #f5f5f5;
-            cursor: pointer;
+            color: #ccc;
+            cursor: not-allowed;
+            border-color: #eee;
+            box-shadow: none;
         }
 
-        .movie-row td {
-            padding: 10px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .movie-row td:hover {
-            transform: scale(1.02);
-        }
-
-        .tag {
-            margin: 2px;
-        }
-
-        .movie-row img {
-            border-radius: 8px;
-        }
-
-        .quote {
-            display: inline-block;
-            padding: 5px;
-            font-family: '宋体';
-            border-left: 4px #05FFDA solid;
-        }
-
-        .button {
-            float: right;
-            display: inline;
-            height: auto;
-            width: 60px;
-        }
-
-        .navbar-container {
+        /* 顶部导航栏 - Glassmorphism */
+        .custom-navbar {
+            flex-shrink: 0; /* 防止被压缩 */
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #eaeaea;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 0;
-            margin-bottom: 15px;
+            z-index: 20;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
 
-        .navbar-start {
+        .nav-brand {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
 
-        .navbar-end {
+        .nav-link-btn {
+            color: #555;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .search-form {
-            display: flex;
-            align-items: center;
-        }
-
-        .search-form input {
-            border-radius: 4px 0 0 4px;
-            border: 1px solid #dbdbdb;
-            padding: 6px 12px;
-            height: 36px;
-        }
-
-        .search-form button {
-            border-radius: 0 4px 4px 0;
-            border: 1px solid #3273dc;
-            background-color: #3273dc;
-            color: white;
-            padding: 6px 12px;
-            height: 36px;
-            cursor: pointer;
-        }
-
-        .search-form button:hover {
-            background-color: #276cda;
-        }
-
-        .nav-button {
-            background-color: #f5f5f5;
-            border: 1px solid #dbdbdb;
-            border-radius: 4px;
-            color: #363636;
-            padding: 6px 12px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 8px;
             text-decoration: none;
-            transition: background-color 0.3s;
         }
 
-        .nav-button:hover {
-            background-color: #e8e8e8;
+        .nav-link-btn:hover {
+            background-color: #f0f2f5;
+            color: #3273dc;
         }
 
-        .nav-button i {
-            margin-right: 5px;
+        .nav-link-btn.is-active {
+            background-color: #e8f0fe;
+            color: #3273dc;
+            font-weight: bold;
+        }
+
+        /* 美化后的搜索栏 */
+        .search-group {
+            display: flex;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-radius: 50px; /* 大圆角 */
+            overflow: hidden;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .search-group:focus-within {
+            box-shadow: 0 4px 12px rgba(50, 115, 220, 0.2);
+            border-color: #3273dc;
+            transform: translateY(-1px);
+        }
+
+        .search-group input {
+            border: none;
+            outline: none;
+            padding: 8px 20px;
+            width: 260px;
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .search-group button {
+            background: #3273dc;
+            border: none;
+            color: white;
+            padding: 0 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 1rem;
+        }
+
+        .search-group button:hover {
+            background: #276cda;
+        }
+
+        /* 主内容区 */
+        .content-area {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem 1.5rem 0; /* 上边距 */
+        }
+
+        .table-scroll-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            border-radius: 12px 12px 0 0;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.02);
+            /* 自定义滚动条 */
+            scrollbar-width: thin;
+            scrollbar-color: #ccc #f1f1f1;
+        }
+
+        /* Webkit 滚动条 */
+        .table-scroll-wrapper::-webkit-scrollbar { width: 6px; }
+        .table-scroll-wrapper::-webkit-scrollbar-track { background: #f1f1f1; }
+        .table-scroll-wrapper::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .custom-table th {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+            padding: 18px;
+            color: #888;
+            font-weight: 600;
+            border-bottom: 2px solid #f0f0f0;
+            backdrop-filter: blur(5px); /* 表头微透明 */
+            background: rgba(255,255,255,0.95);
+        }
+
+        .movie-row td {
+            padding: 18px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f9f9f9;
+            transition: background 0.2s;
+        }
+
+        .movie-row:hover td {
+            background-color: #fafbfc;
+        }
+
+        .movie-poster {
+            width: 90px;
+            height: 135px;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: #eee;
+        }
+
+        /* 资源按钮美化 */
+        .btn-resource {
+            background: linear-gradient(135deg, #FF9D6C 0%, #FF512F 100%);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(255, 81, 47, 0.3);
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            float: right;
+        }
+
+        .btn-resource:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 81, 47, 0.4);
+            color: white;
         }
     </style>
 </head>
 <body>
-<div class="container">
-        <!-- 提示 -->
-        <div class="notification is-danger"></div>
-        <div class="table-container">
-            <div class="navbar-container">
-                <div class="navbar-start">
-                    <a target="_blank" href="https://asunny.top">
-                        <img style="width: 55px;"
-                             src="https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/ico%E5%9B%BE%E6%A0%87.ico"
-                             alt="Asunny主页">
-                    </a>
-                    <a href="{% url 'index' %}" class="nav-button"><strong>Top250_豆瓣电影</strong></a>
-                    <a href="{% url 'chart' %}" class="nav-button"><i class="fas fa-chart-bar"></i> 数据分析</a>
-                    <a href="https://movie.douban.com/top250?start=0&filter=" class="nav-button" 
-                       title="豆瓣根据每部影片看过的人数以及该影片所得的评价等综合数据，通过算法分析产生豆瓣电影 Top 250。">
-                        <i class="fas fa-database"></i> 数据源
-                    </a>
-                </div>
-                
-                <div class="navbar-end">
-                    <form method="get" action="{% url 'index' %}" class="search-form">
-                        <input type="text" name="query" placeholder="搜索电影..." value="{{ request.GET.query }}">
-                        <button type="submit"><i class="fas fa-search"></i></button>
-                    </form>
-                    <a href="{% url 'index' %}" class="nav-button" title="刷新页面">
-                        <i class="fas fa-sync-alt"></i>刷新
-                    </a>
-                </div>
-            </div>
 
-            <div class="table-scroll-container">
-                <table class="table is-striped is-hoverable is-fullwidth">
-                    <thead>
-                    <tr>
-                        <th style="width: 30px">⬆️</th>
-                        <th style="min-width: 80px">🖼️封面</th>
-                        <th>🎞️影视</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for movie in movies %}
-                        <tr class="movie-row">
-                            <td><span style="color:hsl(348, 100%, 61%);">{{ movie.id }}</span></td>
-                            <td><img data-src="{{ movie.img }}" alt="{{ movie.title }}" width="100" class="lazy"
-                                     src="https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/logo3.png"></td>
-                            <td>
-                                <a href="{{ movie.href }}" target="_blank" class="movie-title">{{ movie.title }}</a>
-                                <button class="button is-warning" onclick="getMovieResource('{{ movie.title }}')">获取
-                                </button>
-                                <p>
-                                    <span class="tag is-info">{{ movie.tags.时间 }} 年</span>
-                                    <span class="tag is-link">{{ movie.score }} 分</span><br>
-                                    {% for country in movie.tags.国家 %}
-                                        <span class="tag is-primary">{{ country }}</span>
-                                    {% endfor %}
-                                    {% for property in movie.tags.属性 %}
-                                        <span class="tag is-danger">{{ property }}</span>
-                                    {% endfor %}
-                                </p>
-
-
-                                <div class="movie-details">
-                                    <p class="quote has-background-primary-light"><strong>{{ movie.quote }}</strong></p>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- 分页系统 -->
-            <div class="pagination-container">
-                <nav class="pagination" role="navigation" aria-label="pagination">
-                    <a class="pagination-previous"
-                       href="{% if has_previous %}?page={{ previous_page_number }}{% if query %}&query={{ query }}{% endif %}{% else %}#{% endif %}">上一页</a>
-                    <a class="pagination-next"
-                       href="{% if has_next %}?page={{ next_page_number }}{% if query %}&query={{ query }}{% endif %}{% else %}#{% endif %}">下一页</a>
-                    <ul class="pagination-list">
-                        {% for page in pages %}
-                            <li><a class="pagination-link {% if page == current_page %}is-current{% endif %}"
-                                   href="?page={{ page }}{% if query %}&query={{ query }}{% endif %}">{{ page }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </nav>
-            </div>
-        </div>
+<!-- 导航栏 -->
+<div class="custom-navbar">
+    <div class="nav-brand">
+        <a href="https://asunny.top" target="_blank">
+            <img src="https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/ico%E5%9B%BE%E6%A0%87.ico"
+                 alt="Logo" style="width: 40px; border-radius: 50%;">
+        </a>
+        <a href="{% url 'index' %}" class="nav-link-btn is-active">
+            <i class="fas fa-list-ul"></i> 电影列表
+        </a>
+        <a href="{% url 'chart' %}" class="nav-link-btn">
+            <i class="fas fa-chart-pie"></i> 数据分析
+        </a>
+        <a href="https://movie.douban.com/top250" target="_blank" class="nav-link-btn" title="查看数据源">
+            <i class="fas fa-database"></i> 数据源
+        </a>
     </div>
+
+    <!-- 美化后的搜索框 -->
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <form method="get" action="{% url 'index' %}" class="search-group">
+            <input type="text" name="query" placeholder="搜电影、导演..." value="{{ request.GET.query|default:'' }}">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+        <a href="{% url 'index' %}" class="button is-white is-rounded shadow-sm" title="刷新">
+            <i class="fas fa-sync-alt" style="color: #3273dc;"></i>
+        </a>
+    </div>
+</div>
+
+<!-- 内容区 -->
+<div class="content-area">
+    <div class="table-scroll-wrapper">
+        <table class="table custom-table">
+            <thead>
+                <tr>
+                    <th style="width: 80px; text-align: center;">排名</th>
+                    <th style="width: 120px;">封面</th>
+                    <th>影片详情</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for movie in movies %}
+                <tr class="movie-row">
+                    <!-- 排名 -->
+                    <td style="text-align: center;">
+                        <span style="font-family: 'Impact'; font-size: 1.5rem;
+                           color: {% if movie.id == '1' %}#ff3860{% elif movie.id == '2' %}#ffdd57{% elif movie.id == '3' %}#3273dc{% else %}#ccc{% endif %};">
+                            {{ movie.id }}
+                        </span>
+                    </td>
+
+                    <!-- 封面 -->
+                    <td>
+                        <img data-src="{{ movie.img }}"
+                             alt="{{ movie.title }}"
+                             class="lazy movie-poster"
+                             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+                    </td>
+
+                    <!-- 详情 -->
+                    <td>
+                        <div style="margin-bottom: 8px;">
+                            <a href="{{ movie.href }}" target="_blank" style="font-size: 1.3rem; font-weight: bold; color: #333;">
+                                {{ movie.title }}
+                            </a>
+
+                            <!-- 资源按钮：直接跳转官网 -->
+                            <a href="https://video.451024.xyz/" target="_blank" class="btn-resource">
+                                <i class="fas fa-play"></i> 立即播放
+                            </a>
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <span class="tag is-info is-light">{{ movie.tags.时间 }}</span>
+                            <span class="tag is-warning is-light"><i class="fas fa-star" style="margin-right:3px;"></i> {{ movie.score }}</span>
+                            {% for country in movie.tags.国家 %}
+                                <span class="tag is-white" style="border: 1px solid #eee;">{{ country }}</span>
+                            {% endfor %}
+                        </div>
+
+                        {% if movie.quote %}
+                        <div style="background: #f8f9fa; border-left: 3px solid #3273dc; padding: 8px 12px; border-radius: 0 4px 4px 0; color: #666; font-size: 0.9rem;">
+                            {{ movie.quote }}
+                        </div>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 分页 -->
+<div class="pagination-container">
+    <nav class="pagination" role="navigation" aria-label="pagination">
+        <!-- 上一页 -->
+        {% if has_previous %}
+        <a class="pagination-previous" href="?page={{ previous_page_number }}{% if query %}&query={{ query }}{% endif %}">
+            <i class="fas fa-chevron-left">上一页</i>
+        </a>
+        {% else %}
+        <a class="pagination-previous" disabled>
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        {% endif %}
+
+        <!-- 页码列表：关键类名 pagination-list -->
+        <ul class="pagination-list">
+            {% for page in pages %}
+                <li>
+                    <a class="pagination-link {% if page == current_page %}is-current{% endif %}"
+                       href="?page={{ page }}{% if query %}&query={{ query }}{% endif %}">
+                       {{ page }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- 下一页 -->
+        {% if has_next %}
+        <a class="pagination-next" href="?page={{ next_page_number }}{% if query %}&query={{ query }}{% endif %}">
+            <i class="fas fa-chevron-right">下一页</i>
+        </a>
+        {% else %}
+        <a class="pagination-next" disabled>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        {% endif %}
+    </nav>
+</div>
+
 <script>
-    // 定义一个名为 enableLazyLoad 的函数，用于启用图片懒加载功能
-    function enableLazyLoad() {
-        // 获取所有带有 'lazy' 类的图片元素
-        const lazyImages = document.querySelectorAll('.lazy');
-        // 创建一个 IntersectionObserver 对象来观察元素是否进入视口
-        const observer = new IntersectionObserver((entries, observer) => {
-            // 对每个被观察的元素的状态进行遍历
-            entries.forEach(entry => {
-                // 如果元素进入视口（即 isIntersecting 为 true）
-                if (entry.isIntersecting) {
-                    // 获取当前进入视口的图片元素
-                    const img = entry.target;
-                    // 将图片的 src 属性设置为 data-src 属性的值
-                    img.src = img.getAttribute('data-src');
-                    // 从图片元素上移除 'lazy' 类
-                    img.classList.remove('lazy');
-                    // 停止观察这个图片元素
-                    observer.unobserve(img);
-                }
-            });
-        });
-
-        // 对于每个带有 'lazy' 类的图片元素，开始进行观察
-        lazyImages.forEach(img => {
-            observer.observe(img);
-        });
-    }
-
-    // 显示提示信息 // !未启用
-    function showAlert(message) {
-        const alertBox = document.querySelector('.notification');
-        alertBox.textContent = message;
-        alertBox.style.display = 'block';
-        setTimeout(() => {
-            alertBox.style.display = 'none';
-        }, 5000);
-    }
-
-    // 实现懒加载
+    // 懒加载逻辑
     document.addEventListener('DOMContentLoaded', () => {
-        enableLazyLoad();
+        const lazyImages = document.querySelectorAll('.lazy');
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        const src = img.getAttribute('data-src');
+                        if (src) {
+                            img.src = src;
+                            img.onload = () => { img.classList.remove('lazy'); img.style.opacity = 1; };
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            lazyImages.forEach(img => observer.observe(img));
+        } else {
+            lazyImages.forEach(img => img.src = img.getAttribute('data-src'));
+        }
     });
-
-    // 获取资源
-    function getMovieResource(title) {
-        const resourceUrl = `https://video.451024.xyz/video?name=${encodeURIComponent(title)}`;
-        window.open(resourceUrl, '_blank');
-    }
 </script>
 </body>
 </html>

@@ -11,11 +11,12 @@ from pyecharts import options as opts
 from django.shortcuts import render
 from movies.models import Movie
 
+
 def lode_data():
     # 从数据库获取所有电影数据
     movies = Movie.objects.all()
     data_list = []
-    
+
     for movie in movies:
         # 将数据库对象转换为与原JSON格式兼容的字典
         movie_dict = {
@@ -32,8 +33,9 @@ def lode_data():
             }
         }
         data_list.append(movie_dict)
-    
+
     return data_list
+
 
 # 原来从JSON文件读取数据的函数，保留作为备份
 def lode_data_from_json():
@@ -57,14 +59,14 @@ def lode_data_from_json():
 
 def index(request):
     # 获取搜索查询参数
-    search_query = request.GET.get('query','')
-    
+    search_query = request.GET.get('query', '')
+
     # 直接从数据库查询
     if search_query:
         movies = Movie.objects.filter(title__icontains=search_query)
     else:
         movies = Movie.objects.all()
-    
+
     # 将数据库对象转换为与原JSON格式兼容的字典
     data_list = []
     for movie in movies:
@@ -111,11 +113,14 @@ def index(request):
 
     return render(request, 'movies/index.html', context)
 
+
 # 搜索字段
 from django import forms
 
+
 class SearchForm(forms.Form):
     query = forms.CharField(label='搜索', max_length=255)
+
 
 # 数据可视化
 def chart(request):
@@ -167,7 +172,7 @@ def chart(request):
     country_count = dict(country_count)
     year_count = dict(year_count)
     score_count = dict(score_count)
-    
+
     # 确保top20_movie是有效的数据，并转换为字典
     if top20_movie:
         try:
@@ -182,7 +187,7 @@ def chart(request):
             }
     else:
         top20_movie = {"默认电影": 9.0}
-    
+
     # 确保year_score是有效的数据，并转换为字典
     if year_score:
         try:
@@ -197,7 +202,7 @@ def chart(request):
             }
     else:
         year_score = {"2000": 9.0}
-    
+
     # print(year_score)
     # print(score_count)
     # print(top20_movie)
@@ -331,7 +336,7 @@ def chart(request):
             toolbox_opts=opts.ToolboxOpts(
                 is_show=True,
                 feature=opts.ToolBoxFeatureOpts(
-                    save_as_image={"show": True,"type_":"png","background_color":"white"},  # 下载原图工具
+                    save_as_image={"show": True, "type_": "png", "background_color": "white"},  # 下载原图工具
                     # data_view={"show": False},  # 数据视图工具
                     # 将其他工具设为不显示
                     magic_type={"show": False},  # 动态类型切换。
@@ -360,7 +365,7 @@ def chart(request):
             toolbox_opts=opts.ToolboxOpts(
                 is_show=True,
                 feature=opts.ToolBoxFeatureOpts(
-                    save_as_image={"show": True,"type_":"png","background_color":"white"},  # 下载原图工具
+                    save_as_image={"show": True, "type_": "png", "background_color": "white"},  # 下载原图工具
                     data_view={"show": False},  # 数据视图工具
                     # 将其他工具设为不显示
                     # magic_type={"show": False},  # 动态类型切换。
@@ -483,7 +488,7 @@ def chart(request):
             )
             .render_embed()
         )
-        
+
         # 确保top20_movie是有效的字典并且至少有一个元素
         if not isinstance(top20_movie, dict) or len(top20_movie) == 0:
             # 如果top20_movie不是字典或为空，创建一个默认的字典
@@ -498,9 +503,9 @@ def chart(request):
             # 确保至少有一个元素
             top20_movie_title = list(top20_movie.keys())
             top20_movie_score = list(top20_movie.values())
-        
+
         print(f"Top20电影数量: {len(top20_movie_title)}")
-        
+
         bar_chart = (
             Bar()
             .add_xaxis(top20_movie_title)
@@ -600,7 +605,7 @@ def chart(request):
             except (IndexError, TypeError) as e:
                 print(f"跳过无效数据: {d}, 错误: {e}")
                 continue
-        
+
         # 定义年代范围和对应的标签
         """
         "很久以前" 0
@@ -672,7 +677,7 @@ def chart(request):
         if not filtered_datas:
             # 如果没有有效数据，添加一些默认数据以避免图表错误
             filtered_datas = [[0, 0, 9.0], [1, 1, 8.8], [2, 2, 8.6]]
-            
+
         print(filtered_datas)
         x = list(countries.values())
         y = ["很久以前",
@@ -752,7 +757,7 @@ def chart(request):
 
     return render(request, 'movies/chart.html', context)
 
-def index2(request):
 
+def index2(request):
     data = {"message": "Hello from the server!"}
     return render(request, 'movies/index2.html', data)

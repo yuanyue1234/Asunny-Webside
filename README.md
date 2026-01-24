@@ -1,30 +1,43 @@
 # 基于Django和 vue3 的综合个人网站管理系统-豆瓣电影分析与个人网站的设计与实现
 
-
-
-
 ## 作者
-阿晴_asunny-袁越
 
+阿晴_asunny-袁越
 
 ## 安装与部署
 
-### 环境要求
-- Python 3.8+
-- MySQL 8.0+
-- 操作系统: Windows 10/11, Linux, macOS
+## 开发平台与运行环境
 
-若是安装在liunx服务器上，查看文档:https://iifqv8owatt.feishu.cn/wiki/AKsFwYdeBiqCA2kq30HcdUXPn8f
+    操作系统支持
+    •	Windows 10 / 11
+    •	Linux 发行版
+    •	macOS 12及以上
+    Python 环境
+    •	Python 3.8 - 3.12 
+    •	pip 22.0+
+    •	虚拟环境工具venv
+    数据库环境
+    •	MySQL 8.0+
+    •	MySQL 图形化工具Navicat
+    开发工具：VS Code / PyCharm
+    版本控制：Git + GitHub
+    浏览器支持: Chrome、Edge 或 Firefox
+
+    若是安装在liunx服务器上，查看文档:https://iifqv8owatt.feishu.cn/wiki/AKsFwYdeBiqCA2kq30HcdUXPn8f
 
 ### 本地安装步骤
 
+(或执行./start.sh 命令,自动运行)
+
 1. 克隆项目代码
+
 ```bash
 git clone git@github.com:yuanyue1234/personaldemo.git
 cd myproject
 ```
 
 2. 创建并激活虚拟环境
+
 ```bash
 python -m venv .venv
 # Windows
@@ -34,12 +47,14 @@ source .venv/bin/activate
 ```
 
 3. 安装依赖
+
 ```bash
 pip install -r requirements.txt
 ```
 
 4. 配置数据库
-编辑 `myproject/settings.py` 文件，配置数据库连接信息：
+   编辑 `myproject/settings.py` 文件，配置数据库连接信息：
+
 ```python
 DATABASES = {
     'default': {
@@ -58,6 +73,7 @@ DATABASES = {
 ```
 
 5. 执行数据库迁移
+
 ```bash
 python manage.py makemigrations
 python manage.py migrate
@@ -69,29 +85,41 @@ python manage.py collectstatic
 6. 导入数据
 
 电影数据
+
 ```bash
 python import_movies.py
 ```
+
 创建管理员账户
+
 ```bash
 python manage.py createsuperuser
 ```
-导入站点配置数据
+
+导入要展示的站点配置数据
 127.0.0.1:8000/admin/
 
+生成DjangoStatic配置文件
+
+```bash
+python manage.py collectstatic --noinput
+```
+
 7. 启动前后端开发服务器(pc端)
+
 ```bash
 cd .. & ./start.sh
 ```
 
-
 8. 访问系统
-在浏览器中访问 http://127.0.0.1:8000/movies/ 查看电影列表页面。
-
+   在浏览器中访问 http://127.0.0.1:8000/movies/ 查看电影列表页面。
+   在浏览器中访问 http://127.0.0.1:8000/admin/ 查看站点配置。
+   在浏览器中访问 http://localhost:5173/ 查看站点。
 
 ## 项目概述
 
-本项目是一个基于Django框架开发的综合性Web应用系统，主要包含豆瓣Top250电影数据分析展示系统和个人网站功能。系统采用前后端分离的架构设计，后端使用Django REST Framework提供API接口，前端使用HTML、CSS、JavaScript和Bootstrap构建用户界面。项目整合了数据可视化、用户认证、留言互动等多种功能，为用户提供全面的Web应用体验。
+本项目是一个基于Django框架开发的综合性Web应用系统，主要包含豆瓣Top250电影数据分析展示系统和个人网站功能。系统采用前后端分离的架构设计，后端使用Django
+REST Framework提供API接口，前端使用HTML、CSS、JavaScript和Bootstrap构建用户界面。项目整合了数据可视化、用户认证、留言互动等多种功能，为用户提供全面的Web应用体验。
 
 ## 核心功能模块
 
@@ -115,21 +143,24 @@ cd .. & ./start.sh
 **路径**: `myproject/movies/`
 
 **功能**:
+
 - 展示豆瓣Top250电影数据
 - 提供电影搜索功能
 - 电影数据可视化分析
 - 支持分页浏览
 
 **主要文件**:
+
 - `models.py`: 定义Movie模型，包含电影的基本信息
 - `views.py`: 包含三个主要视图函数：
-  - `index()`: 电影列表展示和搜索功能
-  - `chart()`: 数据可视化功能，包含多种图表
-  - `index2()`: 测试页面
+    - `index()`: 电影列表展示和搜索功能
+    - `chart()`: 数据可视化功能，包含多种图表
+    - `index2()`: 测试页面
 - `urls.py`: 定义URL路由
 - `templates/movies/`: 包含前端模板文件
 
 **数据可视化图表**:
+
 1. 不同国家的电影数量饼图
 2. 电影评分分布散点图
 3. 不同年代电影数量柱状图和折线图
@@ -206,24 +237,27 @@ myproject/
 **路径**: `myproject/lyb/`
 
 **功能**:
+
 - 用户留言发布和展示
 - 用户注册和登录
 - 导航项管理
 
 **主要文件**:
+
 - `models.py`: 定义两个模型：
-  - `lyb`: 存储留言信息
-  - `NavItem`: 存储导航项信息
+    - `lyb`: 存储留言信息
+    - `NavItem`: 存储导航项信息
 - `views.py`: 包含多个API视图：
-  - `LybrViewSet`: 留言板CRUD操作
-  - `register_user()`: 用户注册
-  - `login_user()`: 用户登录，返回JWT令牌
-  - `NavItemListAPIView`: 获取导航项列表
-  - `get_user_info()`: 获取当前登录用户信息
+    - `LybrViewSet`: 留言板CRUD操作
+    - `register_user()`: 用户注册
+    - `login_user()`: 用户登录，返回JWT令牌
+    - `NavItemListAPIView`: 获取导航项列表
+    - `get_user_info()`: 获取当前登录用户信息
 - `serializers.py`: REST框架序列化器
 - `urls.py`: 定义API路由
 
 **技术亮点**:
+
 - 采用JWT认证机制，保障用户账户安全
 - 实现RESTful API，便于前后端分离开发
 
@@ -232,10 +266,12 @@ myproject/
 **路径**: `myproject/site_config/`
 
 **功能**:
+
 - 站点级别的配置管理
 - 单例模式的站点配置
 
 **主要文件**:
+
 - `models.py`: 定义`SiteProfile`模型，使用单例模式存储站点配置
 - `views.py`: 提供`SiteProfileAPIView`用于获取和更新站点配置
 - `serializers.py`: REST框架序列化器
@@ -271,6 +307,7 @@ myproject/
 ## 数据模型
 
 ### Movie模型
+
 ```python
 class Movie(models.Model):
     douban_id = models.CharField(max_length=10, unique=True)  # 豆瓣ID
@@ -285,6 +322,7 @@ class Movie(models.Model):
 ```
 
 ### lyb模型
+
 ```python
 class lyb(models.Model):
     title = models.CharField(max_length=200)
@@ -294,6 +332,7 @@ class lyb(models.Model):
 ```
 
 ### NavItem模型
+
 ```python
 class NavItem(models.Model):
     text = models.CharField(max_length=100)
@@ -301,6 +340,7 @@ class NavItem(models.Model):
 ```
 
 ### SiteProfile模型
+
 ```python
 class SiteProfile(models.Model):
     profile_data = models.JSONField(default=dict)
