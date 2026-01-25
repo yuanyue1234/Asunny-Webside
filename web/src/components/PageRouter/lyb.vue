@@ -230,13 +230,13 @@ const pageSize = ref(10);
 
               <div class="form-group">
                 <label class="form-label" for="author"><i class="fas fa-user"></i> 用户名</label>
-                <input type="text" id="author" class="form-control" v-model="state.lyb.author"
+                <input type="text" id="author" class="is-invalid" v-model="state.lyb.author"
                        placeholder="请输入您的用户名" required>
               </div>
 
               <div class="form-group">
                 <label class="form-label" for="content"><i class="fas fa-comment"></i> 留言内容</label>
-                <textarea id="content" class="form-control" v-model="state.lyb.content" rows="6"
+                <textarea id="content" class="is-invalid" v-model="state.lyb.content" rows="6"
                           placeholder="写下你的想法..." required></textarea>
               </div>
 

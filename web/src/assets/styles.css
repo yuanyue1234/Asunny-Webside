@@ -639,7 +639,6 @@ textarea:focus,
   outline: none;
   border-color: var(--md-sys-color-primary);
   box-shadow: 0 0 0 3px rgba(155, 143, 200, 0.2);
-  background: rgba(255, 255, 255, 0.85);
 }
 
 /* 错误提示 */
