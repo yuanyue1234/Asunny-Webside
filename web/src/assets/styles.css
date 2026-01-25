@@ -175,7 +175,11 @@ body {
 a {
   color: var(--md-sys-color-primary);
   text-decoration: none;
-  transition: color var(--transition-normal);
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+
+  /* 增加可点击区域的鲁棒性 */
+  position: relative;
+  z-index: 30;
 }
 
 a:hover {
@@ -237,10 +241,14 @@ hr {
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
 
+  /* 显式创建层叠上下文，修复z-index问题 */
+  isolation: isolate;
+  z-index: 1;
+
   transform: rotateY(0deg) rotateX(0deg);
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  transition: transform 0.1s linear, box-shadow 0.3s ease, background 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 /* 光照效果层 */
@@ -252,9 +260,44 @@ hr {
   background: radial-gradient(var(--glow-size) circle at var(--x) var(--y), var(--overlay-light), transparent 40%);
   opacity: 0;
   transition: opacity 0.4s ease;
+
+  /* 关键：让所有点击事件穿透光照层 */
   pointer-events: none;
-  z-index: 10;
+
+  /* z-index 设为 1，因为有 pointer-events: none，不会阻挡交互 */
+  z-index: 1;
+
   mix-blend-mode: overlay;
+}
+
+/* 强制卡片内所有直属内容浮在光照层之上 */
+.card__3d > * {
+  position: relative;
+  z-index: 10;
+
+  /* 显式启用指针事件 */
+  pointer-events: auto;
+
+  /* 保持3D变换，让子元素可以正常交互 */
+  transform-style: preserve-3d;
+}
+
+/* 确保 showcase-item 在最上层 */
+.card__3d .showcase-item {
+  position: relative;
+  z-index: 15;
+  pointer-events: auto;
+}
+
+/* 确保卡片内的可交互元素能正常响应 */
+.card__3d .social-icon,
+.card__3d .showcase-content a,
+.card__3d .showcase-content img.clickable {
+  position: relative;
+  z-index: 20;
+
+  /* 显式启用指针事件，确保可以正常点击 */
+  pointer-events: auto;
 }
 
 /* 卡片Hover效果 - 优雅提升 */
@@ -428,16 +471,17 @@ h2::after {
 .social-icon {
   color: var(--md-sys-color-primary);
   font-size: 1.3rem;
-  transition: background var(--transition-normal),
-              color var(--transition-normal),
-              transform var(--transition-normal),
-              box-shadow var(--transition-normal);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
   border-radius: 50%;
+
+  /* 增加可点击区域的鲁棒性 */
+  position: relative;
+  z-index: 30;
 
   /* 磨砂玻璃效果 - 使用 .glass, .glass--blur-md, .glass--shadow-sm 工具类 */
   background: var(--glass-bg);
@@ -659,8 +703,12 @@ textarea:focus,
   border-radius: 6px;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   font-weight: 500;
+
+  /* 增加可点击区域的鲁棒性 */
+  position: relative;
+  z-index: 30;
 }
 
 .btn-sm {
@@ -981,6 +1029,19 @@ textarea:focus,
   .avatar {
     width: 100px;
     height: 100px;
+  }
+
+  /* 移动端性能降级 - 降低磨砂消耗 */
+  .card__3d,
+  .glass {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+  }
+
+  body.dark-theme .card__3d,
+  body.dark-theme .glass {
+    background: rgba(45, 41, 54, 0.95) !important;
   }
 }
 
