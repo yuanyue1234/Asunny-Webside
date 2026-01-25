@@ -1,0 +1,10 @@
+
+> web@0.0.0 dev
+> vite --host 0.0.0.0
+
+
+  VITE v6.3.3  ready in 297 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://169.254.0.21:5173/
+11:28:28 PM [vite] (client) hmr update /src/assets/styles.css

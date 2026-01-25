@@ -211,6 +211,8 @@ hr {
   background: none !important;
   border: none !important;
   box-shadow: none !important;
+  /* 确保卡片本身不拦截其外部或内部非 3D 元素的点击 */
+  pointer-events: none;
 }
 
 /* 卡片包装器 */
@@ -219,6 +221,7 @@ hr {
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
+  pointer-events: none;
 }
 
 /* 卡片3D磨砂玻璃核心 */
@@ -249,6 +252,8 @@ hr {
   transform-style: preserve-3d;
   backface-visibility: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  /* 只有 3D 核心层允许点击，但我们要确保它不遮挡子元素 */
+  pointer-events: auto;
 }
 
 /* 光照效果层 */
@@ -268,25 +273,29 @@ hr {
   z-index: 1;
 
   mix-blend-mode: overlay;
+  pointer-events: none !important; /* 强制点击穿透光照层 */
 }
 
 /* 强制卡片内所有直属内容浮在光照层之上 */
 .card__3d > * {
   position: relative;
-  z-index: 10;
+  z-index: 100; /* 极高层级 */
 
   /* 显式启用指针事件 */
-  pointer-events: auto;
+  pointer-events: auto !important;
 
   /* 保持3D变换，让子元素可以正常交互 */
   transform-style: preserve-3d;
+  /* 确保在 3D 空间中也处于最前方 */
+  transform: translateZ(50px);
 }
 
 /* 确保 showcase-item 在最上层 */
 .card__3d .showcase-item {
   position: relative;
-  z-index: 15;
-  pointer-events: auto;
+  z-index: 150; /* 进一步提高层级 */
+  pointer-events: auto !important;
+  transform: translateZ(60px);
 }
 
 /* 确保卡片内的可交互元素能正常响应 */
@@ -294,10 +303,11 @@ hr {
 .card__3d .showcase-content a,
 .card__3d .showcase-content img.clickable {
   position: relative;
-  z-index: 20;
+  z-index: 200; /* 确保在所有可能的遮挡物之上 */
 
   /* 显式启用指针事件，确保可以正常点击 */
-  pointer-events: auto;
+  pointer-events: auto !important;
+  transform: translateZ(70px);
 }
 
 /* 卡片Hover效果 - 优雅提升 */
