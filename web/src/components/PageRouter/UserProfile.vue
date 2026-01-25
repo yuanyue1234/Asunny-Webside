@@ -155,42 +155,16 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.info-item{
+/* UserProfile.vue 组件特定样式 */
+.info-item {
   padding: 10px;
   border-radius: 8px;
   color: var(--md-sys-color-secondary);
+  transition: all 0.3s ease;
 }
-.info-item:hover{
+
+.info-item:hover {
   background-color: var(--md-sys-color-surface-variant);
   transform: translateX(5px);
 }
-
-.loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  color: var(--md-sys-color-primary);
-}
-
-.auth-button {
-  width: 100%;
-  padding: 0.75rem;
-  background: var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-primary);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s;
-}
-
-.auth-button:hover {
-  background: var(--md-sys-color-primary-container);
-}
-
-
-
-
 </style> 

@@ -73,24 +73,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.theme-toggle {
-  background: none;
-  border: none;
-  color: var(--md-sys-color-on-surface);
-  cursor: pointer;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  position: relative;
-}
-
-.theme-toggle i {
-  font-size: 24px;
-}
+/* ThemeToggle 组件特定样式 - 主题切换动画相关全局样式 */
 
 /* 隐藏滚动条 */
 :global(.hide-scroll-bar) {

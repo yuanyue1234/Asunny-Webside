@@ -58,6 +58,8 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* Hamburger 导航组件特定样式 */
+
 .nav-container {
   position: fixed;
   top: 0;
@@ -87,13 +89,26 @@ onMounted(async () => {
   display: flex;
   gap: 15px;
   align-items: center;
-  //background-color: var(--md-sys-color-background);
-  background-color: color-mix(in srgb, var(--md-sys-color-surface), transparent 10%);
   color: var(--md-sys-color-on-surface);
   border-radius: 32px;
-  padding: 5px 8px;
+  padding: 8px 12px;
   margin-top: 10px;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
+
+  /* 磨砂玻璃效果 */
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.nav-items:hover {
+  box-shadow: 0 12px 32px rgba(155, 143, 200, 0.15);
+}
+
+body.dark-theme .nav-items:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 
 .nav-items a {
@@ -106,14 +121,22 @@ onMounted(async () => {
   height: 40px;
   line-height: 40px;
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
+  font-weight: 500;
 }
 
 .nav-items a:hover {
   width: 40px;
   height: 40px;
-  background-color: var(--md-sys-color-surface-variant);
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
   transform: scale(1.1);
+  box-shadow: var(--shadow-md);
+}
+
+.nav-items a.router-link-active {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
 }
 
 @media screen and (max-width: 650px) {
@@ -128,12 +151,17 @@ onMounted(async () => {
     top: 60px;
     left: 20px;
     transform: none;
-    background-color: var(--md-sys-color-background);
-    border-radius: 12px;
-    padding: 8px;
-    box-shadow: var(--shadow-md);
+    border-radius: var(--border-radius-lg);
+    padding: 12px;
     width: 200px;
     animation: slideIn 0.3s ease;
+
+    /* 磨砂玻璃效果 */
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
   }
 
   .nav-items.show-menu {
@@ -145,14 +173,21 @@ onMounted(async () => {
     text-align: left;
     margin: 0;
     line-height: 25px;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 10px 16px;
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
   }
 
   .nav-items a:hover {
     width: 100%;
     transform: translateX(5px);
-    background-color: var(--md-sys-color-surface-variant);
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+  }
+
+  .nav-items a.router-link-active {
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
   }
 }
 
@@ -167,7 +202,7 @@ onMounted(async () => {
   }
 }
 
-/* 亮暗切换按钮样式 */
+/* 主题切换按钮定位 */
 :deep(.theme-toggle) {
   position: fixed;
   right: 20px;
@@ -179,8 +214,6 @@ onMounted(async () => {
 :deep(.theme-toggle:hover) {
   transform: scale(1.1);
   background-color: var(--md-sys-color-surface-variant);
-
-
 }
 
 /* 下拉菜单样式 */
@@ -219,37 +252,4 @@ onMounted(async () => {
 .dropdown:hover .dropdown-content {
   display: block;
 }
-
-.nav-toggle {
-  font-size: 20px;
-  cursor: pointer;
-  padding: 8px;
-  opacity: 0.7;
-  /* display: none; */
-}
-
-.theme-toggle {
-  background: none;
-  border: none;
-  color: var(--md-sys-color-on-surface);
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  transition: background-color 0.3s;
-  margin-right: 8px;
-}
-
-.theme-toggle:hover {
-  background-color: var(--md-sys-color-surface-variant);
-}
-
-.theme-toggle i {
-  font-size: 24px;
-}
-
 </style>

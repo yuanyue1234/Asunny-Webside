@@ -1,130 +1,278 @@
+/* ===================================================================
+   全局样式表
+   Personal Demo Project - 莫兰迪色系 + 磨砂玻璃风格
+   =================================================================== */
+
+/* 字体导入 */
 @import url("https://chinese-fonts-cdn.deno.dev/packages/LxgwNeoZhiSong/dist/LXGWNeoZhiSong/result.css");
 
+/* ===================================================================
+   1. CSS变量定义 - 柔和莫兰迪色系
+   =================================================================== */
 
-.article {
-    font-family: 'LXGW Neo ZhiSong', sans-serif;
-    font-weight: 800;
-    font-variation-settings: 'wght' 800;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/* 主题颜色变量 */
 :root {
-    /* 主色调 - 更饱和的紫红色 */
-    --md-sys-color-primary: #7D33FF; /* 主按钮、链接等强调 */
-    --md-sys-color-on-primary: #FFFFFF; /* 主色调上的文字 */
-    --md-sys-color-primary-container: #EDE0FF; /* 主容器或强调块 */
+  /* 主色调 - 柔和薰衣草紫 */
+  --md-sys-color-primary: #9B8FC8;
+  --md-sys-color-on-primary: #FFFFFF;
+  --md-sys-color-primary-container: #E8E0F0;
 
-    /* 次要颜色 - 温和紫灰色 */
-    --md-sys-color-secondary: #5C4B70;
-    --md-sys-color-on-secondary: #FFFFFF;
-    --md-sys-color-secondary-container: #D8CDEA;
+  /* 次要颜色 - 柔和豆沙粉 */
+  --md-sys-color-secondary: #D4B8C0;
+  --md-sys-color-on-secondary: #FFFFFF;
+  --md-sys-color-secondary-container: #F5EBE8;
 
-    /* 成功、警告、错误（可选） */
-    --md-sys-color-success: #0F9D58;
-    --md-sys-color-warning: #F9AB00;
-    --md-sys-color-error: #D93025;
+  /* 状态颜色 - 莫兰迪调 */
+  --md-sys-color-success: #8FBFA0;
+  --md-sys-color-warning: #E8D5B7;
+  --md-sys-color-error: #E0B5B8;
 
-    /* 背景和表面色 - 典型Material3柔和层感 */
-    --md-sys-color-background: #F5F3FF; /* 全局背景色 */
-    --md-sys-color-surface: #FFFFFF; /* 卡片、内容区背景 */
-    --md-sys-color-on-surface: #1B1B1F; /* 普通文本颜色 */
-    --md-sys-color-surface-variant: #ECE6F0; /* 小组件或模块背景 */
+  /* 背景和表面色 */
+  --md-sys-color-background: #FAF7F5;
+  --md-sys-color-surface: #FFFFFF;
+  --md-sys-color-on-surface: #5C5552;
+  --md-sys-color-surface-variant: #F0EBE8;
+  --md-sys-color-on-surface-variant: #6A6560;
 
-    /* 辅助与边框 */
-    --md-sys-color-outline: #A69CAD; /* 输入框边框/分隔线 */
+  /* 辅助色 */
+  --md-sys-color-outline: #D0CCC8;
+  --md-sys-color-hover-overlay: rgba(155, 143, 200, 0.08);
+  --md-sys-color-focus-outline: rgba(155, 143, 200, 0.3);
 
-    /* hover、active 的蒙层色（带透明度） */
-    --md-sys-color-hover-overlay: rgba(125, 51, 255, 0.08);
-    --md-sys-color-focus-outline: rgba(125, 51, 255, 0.3);
+  /* 间距系统 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
 
-    /* 卡片3D效果变量 */
-    --step: 5%;
-    --rainbow: repeating-linear-gradient(
-            0deg,
-            rgb(255, 119, 115) calc(var(--step) * 1),
-            rgba(255, 237, 95, 1) calc(var(--step) * 2),
-            rgba(168, 255, 95, 1) calc(var(--step) * 3),
-            rgba(131, 255, 247, 1) calc(var(--step) * 4),
-            rgba(120, 148, 255, 1) calc(var(--step) * 5),
-            rgb(216, 117, 255) calc(var(--step) * 6),
-            rgb(255, 119, 115) calc(var(--step) * 7)
-    ) 0% var(--bg-y) / 200% 700%;
-    --diagonal: repeating-linear-gradient(
-            128deg,
-            #0e152e 0%,
-            hsl(180, 10%, 60%) 3.8%,
-            hsl(180, 10%, 60%) 4.5%,
-            hsl(180, 10%, 60%) 5.2%,
-            #0e152e 10%,
-            #0e152e 12%
-    ) var(--bg-x) var(--bg-y) / 300%;
+  /* 字体大小 */
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 24px;
 
-    /* 间距变量 */
-    --spacing-xs: 4px;
-    --spacing-sm: 8px;
-    --spacing-md: 16px;
-    --spacing-lg: 24px;
-    --spacing-xl: 32px;
+  /* 圆角 */
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 20px;
 
-    /* 字体大小变量 */
-    --font-size-sm: 14px;
-    --font-size-md: 16px;
-    --font-size-lg: 20px;
-    --font-size-xl: 24px;
+  /* 阴影 - 更柔和 */
+  --shadow-sm: 0 2px 8px rgba(92, 75, 112, 0.08);
+  --shadow-md: 0 4px 16px rgba(92, 75, 112, 0.12);
+  --shadow-lg: 0 8px 32px rgba(92, 75, 112, 0.16);
 
-    /* 圆角变量 */
-    --border-radius-sm: 4px;
-    --border-radius-md: 8px;
-    --border-radius-lg: 16px;
+  /* 磨砂玻璃效果变量 */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 8px 32px rgba(92, 75, 112, 0.12);
 
-    /* 阴影变量 */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 6px 12px rgba(0, 0, 0, 0.15);
-
-    /* 过渡时间 */
-    --transition-fast: 0.2s;
-    --transition-normal: 0.3s;
-    --transition-slow: 0.5s;
+  /* 过渡动画 */
+  --transition-fast: 0.3s;
+  --transition-normal: 0.4s;
+  --transition-slow: 0.6s;
 }
 
-/* 深色主题 */
+/* 深色主题 - 莫兰迪深色 */
 body.dark-theme {
-    --md-sys-color-primary: #D0BCFF;
-    --md-sys-color-on-primary: #381E72;
-    --md-sys-color-primary-container: #4F378B;
-    --md-sys-color-secondary: #CCC2DC;
-    --md-sys-color-on-secondary: #332D41;
-    --md-sys-color-secondary-container: #4A4458;
-    --md-sys-color-surface: #1C1B1F;
-    --md-sys-color-on-surface: #E6E1E5;
-    --md-sys-color-surface-variant: #49454F;
-    --md-sys-color-outline: #938F99;
-    --md-sys-color-background: #1C1B1F;
+  --md-sys-color-primary: #B8A8D8;
+  --md-sys-color-on-primary: #2D2936;
+  --md-sys-color-primary-container: #464157;
+  --md-sys-color-secondary: #CEC0D8;
+  --md-sys-color-on-secondary: #332D41;
+  --md-sys-color-secondary-container: #4A4458;
+  --md-sys-color-surface: #2D2936;
+  --md-sys-color-on-surface: #E8E0E8;
+  --md-sys-color-surface-variant: #464157;
+  --md-sys-color-outline: #938F99;
+  --md-sys-color-background: #1A1816;
+  --glass-bg: rgba(45, 41, 54, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-/* 基础样式 */
-html, body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--md-sys-color-background);
-    color: var(--md-sys-color-on-surface);
-    transition: background-color var(--transition-normal), color var(--transition-normal);
-    min-height: 100vh;
+
+/* ===================================================================
+   2. 基础样式
+   =================================================================== */
+
+/* 全局字体 */
+.article {
+  font-family: 'LXGW Neo ZhiSong', sans-serif;
+  font-weight: 800;
+  font-variation-settings: 'wght' 800;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* HTML和Body基础样式 */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-surface);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+  min-height: 100vh;
+}
+
+/* 全局链接样式 */
+a {
+  color: var(--md-sys-color-primary);
+  text-decoration: none;
+  transition: all var(--transition-normal);
+}
+
+a:hover {
+  color: var(--md-sys-color-primary-container);
+}
+
+/* 分割线 */
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--md-sys-color-outline), transparent);
+  opacity: 0.3;
+  margin: 24px 0;
+}
+
+/* ===================================================================
+   3. 3D磨砂玻璃卡片系统
+   =================================================================== */
+
+/* 卡片外层容器 */
+.card {
+  position: relative;
+  margin-bottom: 32px;
+  width: 100%;
+  min-height: 200px;
+  perspective: 1500px;
+  z-index: 1;
+  border-radius: var(--border-radius-lg);
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 卡片包装器 */
+.card__wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+/* 卡片3D磨砂玻璃核心 */
+.card__3d {
+  --x: 50%;
+  --y: 50%;
+  --bg-x: 40%;
+  --bg-y: 40%;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 32px;
+  border-radius: var(--border-radius-lg);
+
+  /* 磨砂玻璃效果 */
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+
+  transform: rotateY(0deg) rotateX(0deg);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 0.1s linear, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* 光照效果层 */
+.card__3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--border-radius-lg);
+  background: radial-gradient(800px circle at var(--x) var(--y), rgba(255, 255, 255, 0.3), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 10;
+  mix-blend-mode: overlay;
+}
+
+/* 卡片Hover效果 - 优雅提升 */
+.card:hover .card__3d {
+  box-shadow: 0 12px 40px rgba(155, 143, 200, 0.15),
+              0 8px 16px rgba(155, 143, 200, 0.1);
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+.card:hover .card__3d::before {
+  opacity: 0.6;
+}
+
+/* 深色模式卡片Hover */
+body.dark-theme .card:hover .card__3d {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5),
+              0 8px 16px rgba(0, 0, 0, 0.3);
+  background: rgba(45, 41, 54, 0.8);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-theme .card:hover .card__3d::before {
+  opacity: 0.4;
+}
+
+/* ===================================================================
+   4. 布局容器
+   =================================================================== */
+
+/* ProfileSection专用容器 */
+.profile-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'LXGW Neo ZhiSong', sans-serif;
+}
+
+/* 认证页面容器 */
+.login-container,
+.register-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 200px);
+  padding: 20px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* 认证框 */
+.auth-box {
+  background: var(--md-sys-color-surface);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* ===================================================================
+   5. 个人信息展示组件
+   =================================================================== */
 
 /* 背景 */
 .profile {
     padding: var(--spacing-xl) 0;
-    background-image: url('https://cdn.seovx.com/d/?mom=302');
-    /*background-image: url('https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/20250527_172019_317.png');*/
+    background-image: url('https://www.dmoe.cc/random.php');
+    /* background-image: url('https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/20250527_172019_317.png'); */
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    /* 滚动条隐藏 */
+    /* 滚动条隐藏 */ 
     overflow: hidden;
 }
 
@@ -136,263 +284,623 @@ html, body {
         background-position: center;
     }
 }
-
-@keyframes gradientBG {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
+/* 头像 - 增强磨砂效果 */
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 16px;
+  border: 5px solid var(--glass-bg);
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-normal);
+  backdrop-filter: blur(10px);
 }
 
-.profile-container {
-    max-width: 650px;
-    margin: 0 auto;
-    padding: 20px;
+.avatar:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 12px 24px rgba(155, 143, 200, 0.3);
+  border-color: var(--md-sys-color-primary-container);
 }
 
-.profile-info {
-    margin: var(--spacing-xl) var(--spacing-md);
-    padding: var(--spacing-xl);
-    border-radius: var(--border-radius-lg);
-
-    /* --- 磨砂玻璃核心样式 --- */
-    /* 背景改为半透明白色 (根据你的主题，如果是深色模式可以改为 rgba(0, 0, 0, 0.2)) */
-    /*background: rgba(255, 255, 255, 0.1);*/
-    /* 模糊背景 */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* 兼容 Safari */
-    /* 玻璃边缘高光 */
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    /* 调整阴影使其更柔和 */
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-    /* ---------------------- */
-
-    transition: background-color var(--transition-normal), box-shadow var(--transition-normal);
-}
-
-.profile-info h2 {
-    color: var(--md-sys-color-primary);
-    text-align: center;
-    margin-top: 0;
-    font-size: var(--font-size-xl);
-    margin-bottom: var(--spacing-lg);
-    border-bottom: 2px solid var(--md-sys-color-primary-container);
-    padding-bottom: var(--spacing-md);
-}
-
-.profile-info a {
-    color: var(--md-sys-color-primary);
-    text-decoration: none;
-    font-weight: 500;
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 10px;
-    transition: color 0.3s;
-    font-size: 18px;
-}
-
-/* 卡片效果 */
-
-/* 2. 修改 .card (注意去掉了原有的背景色变量，改用半透明) */
-.card {
-    position: relative;
-
-    /* --- 磨砂玻璃修改 --- */
-    /* 必须覆盖原有的 !important 纯色背景，改为半透明 */
-    /*background-color: rgba(255, 255, 255, 0.15) !important;*/
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    /*border: 1px solid rgba(255, 255, 255, 0.3); !* 增加玻璃边缘感 *!*/
-    /* ------------------ */
-
-    padding: 15px !important;
-    margin: 16px 0 !important;
-    border-radius: 16px !important;
-    /*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
-    transition: all 0.3s ease;
-    overflow: hidden;
-    z-index: 1;
-    perspective: 1000px;
-    width: 100%;
-    min-height: 200px;
-}
-
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-}
-
-.card:hover::before {
-    filter: blur(2px);
-    opacity: 0.8;
-}
-
-
-/* 3. 新增/修改 .card__wrapper (你在代码中没提供这个类，但我加上了) */
-.card__wrapper {
-    /* --- 磨砂玻璃样式 --- */
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    /*border: 1px solid rgba(255, 255, 255, 0.3);*/
-    /* ------------------ */
-
-    /* 建议加上圆角，否则玻璃效果在直角处不好看 */
-    border-radius: 16px;
-    padding: 10px; /* 根据需要调整 */
-}
-
-/* 其余代码保持不变... */
-.profile-container {
-    max-width: 650px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
+/* 内容区域 */
 .profile-header {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    transform: translateZ(20px);
+  position: relative;
+  z-index: 20;
+  transform: translateZ(30px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.showcase-item {
+  position: relative;
+  z-index: 20;
+  transform: translateZ(30px);
 }
 
 .profile-name {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    width: 100%;
-    transform: translateZ(20px);
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 100%;
+  transform: translateZ(20px);
 }
 
-.showcase-item {
-    position: relative;
-    z-index: 2;
-    margin: 20px 0;
-    transform: translateZ(20px);
+/* 标题样式 - 优雅简洁 */
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--md-sys-color-primary);
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding-bottom: 1rem;
+  position: relative;
 }
 
-.showcase-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 16px 0;
-    justify-content: center;
-    transform: translateZ(20px);
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--md-sys-color-primary), transparent);
 }
 
-.card:hover {
-    transform: translateY(-5px);
+.profile-name h2 {
+  margin: 8px 0;
+  color: var(--md-sys-color-on-surface);
+  font-size: 1.8rem;
+  font-weight: 800;
 }
 
-.card:hover .card__3d {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2),
-    0 15px 20px rgba(0, 0, 0, 0.1),
-    0 0 120px rgba(125, 51, 255, 0.2);
+/* 社交链接 - 柔和磨砂 */
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
 }
 
-
-/* 导航栏样式 */
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-md) 0;
-    background-color: var(--md-sys-color-surface);
-    transition: background-color var(--transition-normal);
+.social-icon {
+  color: var(--md-sys-color-primary);
+  font-size: 1.3rem;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
 }
 
-nav a, .dropdown > span {
-    color: var(--md-sys-color-primary);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: var(--font-size-sm);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--border-radius-md);
-    transition: all var(--transition-normal);
+.social-icon:hover {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: var(--shadow-md);
 }
 
-nav a:hover, .dropdown > span:hover {
-    background-color: var(--md-sys-color-secondary-container);
-}
-
-
-/* 展示区域样式 */
-.showcase {
-    margin: var(--spacing-lg) var(--spacing-md);
-    border-radius: var(--border-radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    transition: background-color var(--transition-normal), box-shadow var(--transition-normal);
-    padding: 12px;
-}
-
-.showcase-item {
-    border-radius: 12px;
-
-}
-
-.showcase-item img {
-    width: 150px;
-    padding: 0px;
-    margin-bottom: 10px;
-    height: 150px;
-    border: 10px solid var(--md-sys-color-on-secondary);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.showcase-item:hover img {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.showcase-item:last-child {
-    border-bottom: none;
-}
-
+/* 磨砂玻璃标题 - 优化版 */
 .showcase-title {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--md-sys-color-primary);
-    margin: 1rem 0;
-    padding: 0.8rem 1.2rem;
-    background-color: var(--md-sys-color-surface-variant);
-    border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--md-sys-color-primary);
+  margin: 1.5rem 0 1rem;
+  padding: 14px 24px;
+  border-radius: var(--border-radius-md);
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+  letter-spacing: 0.3px;
 }
 
+/* 展示内容 - 柔和配色 */
 .showcase-content {
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    color: var(--md-sys-color-on-surface);
-
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 0;
 }
 
 .showcase-content a {
-    color: var(--md-sys-color-primary);
-    text-decoration: none;
-    font-weight: 500;
-
+  color: var(--md-sys-color-on-surface);
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: var(--border-radius-md);
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  transition: all var(--transition-normal);
+  font-weight: 500;
+  font-size: 0.95rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .showcase-content a:hover {
-    text-decoration: underline;
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
-hr {
-    box-shadow: 1px 2px 0px rgba(0, 0, 0, 0.3);
+.showcase-content img.clickable {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-sm);
+}
+
+.showcase-content img.clickable:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-md);
+  border-color: var(--md-sys-color-primary-container);
+}
+
+/* ===================================================================
+   6. 表单组件
+   =================================================================== */
+
+/* 表单组 */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* 标签 */
+.form-label,
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--md-sys-color-on-surface);
+  font-weight: 500;
+}
+
+/* 输入框和文本域 - 磨砂玻璃风格 */
+input,
+textarea,
+.form-control {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--md-sys-color-outline);
+  border-radius: var(--border-radius-md);
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  color: var(--md-sys-color-on-surface);
+  transition: all var(--transition-normal);
+  font-family: inherit;
+  box-shadow: var(--shadow-sm);
+}
+
+input:focus,
+textarea:focus,
+.form-control:focus {
+  outline: none;
+  border-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 3px rgba(155, 143, 200, 0.2);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* 错误提示 */
+.invalid-feedback {
+  color: var(--md-sys-color-error);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.is-invalid {
+  border-color: var(--md-sys-color-error) !important;
+}
+
+/* ===================================================================
+   7. 按钮组件
+   =================================================================== */
+
+/* 认证按钮和提交按钮 - 磨砂玻璃风格 */
+.auth-button,
+.submit-btn {
+  width: 100%;
+  padding: 0.875rem;
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border: none;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.auth-button:hover,
+.submit-btn:hover {
+  background: var(--md-sys-color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  filter: brightness(1.05);
+}
+
+/* 主题切换按钮 - 磨砂玻璃 */
+.theme-toggle {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: var(--md-sys-color-on-surface);
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle:hover {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-toggle i {
+  font-size: 24px;
+}
+
+/* Bootstrap按钮增强 - 磨砂玻璃风格 */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.btn-link {
+  background: none;
+  color: var(--md-sys-color-primary);
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+.expand-btn {
+  background: none;
+  border: none;
+  color: var(--md-sys-color-primary);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  margin-left: 0.5rem;
+}
+
+.expand-btn:hover {
+  background-color: var(--md-sys-color-primary-container);
+  border-radius: 4px;
+}
+
+/* ===================================================================
+   8. 反馈组件（Toast & Alert） - 磨砂玻璃风格
+   =================================================================== */
+
+/* Toast容器 */
+.toast-container {
+  z-index: 1050;
+}
+
+/* Toast - 磨砂玻璃风格 */
+.toast {
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  min-width: 280px;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--glass-border);
+  overflow: hidden;
+
+  /* 磨砂玻璃效果 */
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: rgba(155, 143, 200, 0.1);
+  border-bottom: 1px solid rgba(155, 143, 200, 0.2);
+  font-weight: 600;
+  color: var(--md-sys-color-primary);
+}
+
+.toast-body {
+  padding: 1rem;
+  font-size: 0.95rem;
+  color: var(--md-sys-color-on-surface);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Toast颜色变体 - 莫兰迪调 */
+.toast-success {
+  background: linear-gradient(135deg, rgba(143, 191, 160, 0.6), rgba(143, 191, 160, 0.4)) !important;
+  border-color: rgba(143, 191, 160, 0.8) !important;
+}
+
+.toast-success .toast-header {
+  background: rgba(143, 191, 160, 0.15);
+  color: #5A8A6A;
+  border-bottom-color: rgba(143, 191, 160, 0.3);
+}
+
+.toast-error {
+  background: linear-gradient(135deg, rgba(224, 181, 184, 0.6), rgba(224, 181, 184, 0.4)) !important;
+  border-color: rgba(224, 181, 184, 0.8) !important;
+}
+
+.toast-error .toast-header {
+  background: rgba(224, 181, 184, 0.15);
+  color: #A85A5E;
+  border-bottom-color: rgba(224, 181, 184, 0.3);
+}
+
+.toast-warning {
+  background: linear-gradient(135deg, rgba(232, 213, 183, 0.6), rgba(232, 213, 183, 0.4)) !important;
+  border-color: rgba(232, 213, 183, 0.8) !important;
+}
+
+.toast-warning .toast-header {
+  background: rgba(232, 213, 183, 0.15);
+  color: #A89858;
+  border-bottom-color: rgba(232, 213, 183, 0.3);
+}
+
+.btn-close-white {
+  opacity: 0.7;
+  transition: all var(--transition-fast);
+}
+
+.btn-close-white:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Alert - 磨砂玻璃风格 */
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: var(--border-radius-md);
+  margin-bottom: 1rem;
+  border: 1px solid;
+
+  /* 磨砂玻璃效果 */
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.alert:hover {
+  box-shadow: var(--shadow-md);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, rgba(224, 181, 184, 0.3), rgba(224, 181, 184, 0.15));
+  color: #A85A5E;
+  border-color: rgba(224, 181, 184, 0.6);
+}
+
+.alert-danger:hover {
+  border-color: rgba(224, 181, 184, 0.8);
+  background: linear-gradient(135deg, rgba(224, 181, 184, 0.4), rgba(224, 181, 184, 0.2));
+}
+
+.alert-success {
+  background: linear-gradient(135deg, rgba(143, 191, 160, 0.3), rgba(143, 191, 160, 0.15));
+  color: #5A8A6A;
+  border-color: rgba(143, 191, 160, 0.6);
+}
+
+.alert-success:hover {
+  border-color: rgba(143, 191, 160, 0.8);
+  background: linear-gradient(135deg, rgba(143, 191, 160, 0.4), rgba(143, 191, 160, 0.2));
+}
+
+.alert-warning {
+  background: linear-gradient(135deg, rgba(232, 213, 183, 0.3), rgba(232, 213, 183, 0.15));
+  color: #A89858;
+  border-color: rgba(232, 213, 183, 0.6);
+}
+
+.alert-warning:hover {
+  border-color: rgba(232, 213, 183, 0.8);
+  background: linear-gradient(135deg, rgba(232, 213, 183, 0.4), rgba(232, 213, 183, 0.2));
+}
+
+/* 加载状态 - 柔和动画 */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--md-sys-color-primary);
+  font-size: 1.1rem;
+}
+
+.loading::before {
+  content: '';
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--md-sys-color-primary-container);
+  border-top-color: var(--md-sys-color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===================================================================
+   9. 表格组件 - 磨砂玻璃风格
+   =================================================================== */
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.table thead {
+  background: linear-gradient(135deg, rgba(155, 143, 200, 0.15), rgba(212, 184, 192, 0.1));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.table th,
+.table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(155, 143, 200, 0.15);
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--md-sys-color-primary);
+  letter-spacing: 0.3px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.table tbody tr {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all var(--transition-normal);
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 0 0 1px rgba(155, 143, 200, 0.2);
+  transform: scale(1.01);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* 表格边框圆角 */
+.table thead tr:first-child th:first-child {
+  border-top-left-radius: var(--border-radius-md);
+}
+
+.table thead tr:first-child th:last-child {
+  border-top-right-radius: var(--border-radius-md);
+}
+
+/* ===================================================================
+   10. 其他工具类
+   =================================================================== */
+
+/* 认证链接 */
+.auth-link {
+  text-align: center;
+  margin-top: 1rem;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.auth-link a {
+  color: var(--md-sys-color-primary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.auth-link a:hover {
+  color: var(--md-sys-color-primary-container);
+  text-decoration: underline;
+}
+
+/* ===================================================================
+   11. 响应式设计
+   =================================================================== */
+
+/* 移动端适配（≤650px） */
+@media screen and (max-width: 650px) {
+  .card {
+    perspective: none;
+    margin-bottom: 20px;
+  }
+
+  .card__3d {
+    transform: none !important;
+    padding: 24px;
+  }
+
+  .profile-header,
+  .showcase-item {
+    transform: none;
+  }
+
+  .avatar {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* ===================================================================
+   12. 动画定义
+   =================================================================== */
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

@@ -79,63 +79,103 @@ const setupHitokotoClickEvent = () => {
 </script>
 
 <style scoped>
+/* PageFooter 组件特定样式 - 磨砂玻璃风格 */
 
-/* 一言样式 */
+/* 一言容器 - 磨砂玻璃卡片 */
 #hitokoto {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin: var(--spacing-lg) 0;
-    padding: var(--spacing-md);
-    transition: all var(--transition-normal);
-    position: relative; /* 添加定位 */
-    z-index: 10; /* 提高层级 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: var(--spacing-lg) auto;
+  padding: var(--spacing-lg);
+  max-width: 600px;
+  transition: all var(--transition-normal);
+  position: relative;
+  z-index: 10;
+
+  /* 磨砂玻璃效果 */
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--glass-shadow);
+}
+
+#hitokoto:hover {
+  box-shadow: 0 12px 40px rgba(155, 143, 200, 0.18);
+  transform: translateY(-3px);
+}
+
+body.dark-theme #hitokoto:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
 }
 
 #hitokoto_text {
-    color: var(--md-sys-color-on-surface-variant);
-    text-decoration: none;
-    font-style: italic;
-    transition: all var(--transition-normal);
-    font-weight: 500;
-    font-size: var(--font-size-lg);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--border-radius-md);
-    cursor: pointer; /* 添加指针样式 */
-    position: relative; /* 添加定位 */
-    z-index: 20; /* 提高层级 */
+  color: var(--md-sys-color-on-surface-variant);
+  text-decoration: none;
+  font-style: italic;
+  transition: all var(--transition-normal);
+  font-weight: 500;
+  font-size: var(--font-size-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  position: relative;
+  z-index: 20;
+  line-height: 1.6;
 }
 
 #hitokoto_text:hover {
-    color: var(--md-sys-color-primary);
-    background-color: var(--md-sys-color-primary-container);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+  color: var(--md-sys-color-primary);
+  background: var(--md-sys-color-primary-container);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
+/* 管理链接区域 */
 .manage {
-    display: flex;
-    justify-content: center;
-    padding: var(--spacing-md) 0;
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-lg) 0 var(--spacing-xl);
 }
 
 .manage-item {
-    color: var(--md-sys-color-on-surface-variant);
-    font-size: var(--font-size-sm);
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--font-size-sm);
+
+  /* 磨砂玻璃背景 */
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.manage-item:hover {
+  box-shadow: var(--shadow-md);
+}
+
+body.dark-theme .manage-item:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .manage-item a {
-    color: var(--md-sys-color-on-surface-variant);
-    text-decoration: none;
-    transition: all var(--transition-normal);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--border-radius-sm);
+  color: var(--md-sys-color-on-surface-variant);
+  text-decoration: none;
+  transition: all var(--transition-normal);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  font-weight: 500;
 }
 
 .manage-item a:hover {
-    color: var(--md-sys-color-primary);
-    background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-primary);
+  background: var(--md-sys-color-primary-container);
+  transform: translateY(-1px);
 }
-
 </style> 
