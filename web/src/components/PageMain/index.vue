@@ -1,6 +1,8 @@
 <template>
   <div class="page-main">
-    <HeaderImg />
+    <!-- HeaderImg 组件已注释，如需使用请创建 -->
+    <!-- <HeaderImg /> -->
+
     <profile-section v-if="profileDataFromAPI" :profile="profileDataFromAPI" />
     <div v-else-if="loading">正在加载个人信息...</div>
     <div v-else-if="error">加载个人信息失败: {{ error }}</div>
@@ -46,5 +48,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* 您可以添加一些样式来处理加载和错误状态 */
+.page-main {
+  min-height: 100vh;
+}
 </style> 

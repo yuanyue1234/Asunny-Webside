@@ -290,24 +290,11 @@ hr {
   transform: translateZ(50px);
 }
 
-/* 确保 showcase-item 在最上层 */
-.card__3d .showcase-item {
+.card__3d  {
   position: relative;
-  z-index: 150; /* 进一步提高层级 */
+ 
   pointer-events: auto !important;
   transform: translateZ(60px);
-}
-
-/* 确保卡片内的可交互元素能正常响应 */
-.card__3d .social-icon,
-.card__3d .showcase-content a,
-.card__3d .showcase-content img.clickable {
-  position: relative;
-  z-index: 200; /* 确保在所有可能的遮挡物之上 */
-
-  /* 显式启用指针事件，确保可以正常点击 */
-  pointer-events: auto !important;
-  transform: translateZ(70px);
 }
 
 /* 卡片Hover效果 - 优雅提升 */
@@ -339,7 +326,7 @@ body.dark-theme .card:hover .card__3d::before {
 
 /* ProfileSection专用容器 */
 .profile-container {
-  max-width: 720px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 40px 20px;
   font-family: 'LXGW Neo ZhiSong', sans-serif;
@@ -358,14 +345,27 @@ body.dark-theme .card:hover .card__3d::before {
   margin: 0 auto;
 }
 
-/* 认证框 */
+/* 认证框 - 磨砂玻璃风格 */
 .auth-box {
-  background: var(--md-sys-color-surface);
   padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius-lg);
   width: 100%;
   max-width: 400px;
+  margin: 0 auto;
+
+  /* 磨砂玻璃效果 */
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.auth-box h2 {
+  color: var(--md-sys-color-primary);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
 }
 
 /* ===================================================================
@@ -414,7 +414,10 @@ body.dark-theme .card:hover .card__3d::before {
   box-shadow: var(--shadow-hover-md);
   border-color: var(--md-sys-color-primary-container);
 }
-
+.profile-header, .profile-name, .showcase-item, .showcase-content {
+    position: relative;
+    z-index: 3;
+}
 /* 内容区域 */
 .profile-header {
   position: relative;
@@ -427,9 +430,21 @@ body.dark-theme .card:hover .card__3d::before {
 }
 
 .showcase-item {
-  position: relative;
-  z-index: 20;
-  transform: translateZ(30px);
+    position: relative;
+    z-index: 3;
+    margin: 20px 0;
+    transform: translateZ(20px);
+}
+
+.showcase-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px 0;
+    justify-content: center;
+    transform: translateZ(20px);
 }
 
 .profile-name {
@@ -480,7 +495,7 @@ h2::after {
 
 .social-icon {
   color: var(--md-sys-color-primary);
-  font-size: 1.3rem;
+  font-size: 1rem;
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   align-items: center;
@@ -529,6 +544,7 @@ h2::after {
 .showcase-content {
   display: flex;
   flex-wrap: wrap;
+  z-index: 500;
   justify-content: center;
   gap: 12px;
   padding: 8px 0;
@@ -1098,4 +1114,104 @@ textarea:focus-visible,
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ===================================================================
+   14. 留言板页面样式 - 磨砂玻璃风格
+   =================================================================== */
+
+/* 留言板容器 */
+.lyb-container {
+  display: flex;
+  gap: var(--spacing-xl);
+  padding: var(--spacing-xl);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.lyb-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.lyb-sidebar {
+  width: 350px;
+  flex-shrink: 0;
+}
+
+@media screen and (max-width: 900px) {
+  .lyb-container {
+    flex-direction: column;
+  }
+
+  .lyb-sidebar {
+    width: 100%;
+  }
+}
+
+/* 留言板表格样式增强 */
+.table-title {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--md-sys-color-primary);
+}
+
+.table-author {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.table-content {
+  max-width: 300px;
+  color: var(--md-sys-color-on-surface);
+}
+
+.content-cell {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+}
+
+.table-actions {
+  white-space: nowrap;
+}
+
+/* 留言板表单样式 */
+.lyb-form {
+  width: 100%;
+}
+
+.lyb-form input,
+.lyb-form textarea {
+  width: 100%;
+}
+
+/* 表格单元格悬停效果 */
+.table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+body.dark-theme .table tbody tr:hover {
+  background: rgba(45, 41, 54, 0.85);
+}
+
+/* 编辑/删除按钮样式优化 */
+.table-actions .btn {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: var(--md-sys-color-primary);
+  transition: all var(--transition-normal);
+}
+
+.table-actions .btn:hover {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  transform: scale(1.05);
 }

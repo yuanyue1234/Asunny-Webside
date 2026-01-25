@@ -8,7 +8,6 @@ const authStore = useAuthStore()
 // 用于表单输入
 const lyb_blank = {
   url: '',
-  title: '',
   author: '',
   content: ''
 }
@@ -41,7 +40,6 @@ const getDisplayContent = (content, index) => {
 // 编辑留言
 const editLyb = (item) => {
   state.lyb.url = item.url;
-  state.lyb.title = item.title;
   state.lyb.author = item.author;
   state.lyb.content = item.content;
 }
@@ -58,17 +56,21 @@ const deletelyb = (item) => {
   })
 }
 const savelyb = () => {
+  // 为后端兼容，即使前端不显示 title，也提供一个默认值
   let newdata = {
-    title: state.lyb.title,
+    title: '留言',  // 默认标题，后端可能需要此字段
     author: state.lyb.author,
     content: state.lyb.content
   }
+
   if (state.lyb.url == "") {
     //新增
     axios.post("lyb/", newdata).then(res => {
+      console.log("留言添加成功:", res.data)
       getLyb()
     }).catch(err => {
-      console.log(err)
+      console.error("添加留言失败:", err)
+      alert("添加留言失败: " + (err.response?.data?.error || err.message))
     })
   } else {
     //修改
@@ -77,9 +79,11 @@ const savelyb = () => {
       relativeEditUrl = relativeEditUrl.substring('/api/is'.length);
     }
     axios.put(relativeEditUrl, newdata).then(res => {
+      console.log("留言更新成功:", res.data)
       getLyb()
     }).catch(err => {
-      console.log(err)
+      console.error("更新留言失败:", err)
+      alert("更新留言失败: " + (err.response?.data?.error || err.message))
     })
   }
 }
@@ -188,42 +192,31 @@ const pageSize = ref(10);
 
   <div class="lyb-container">
     <div class="lyb-main">
-      <div class="showcase">
-        <div class="showcase-item">
-          <table class="table">
-            <thead>
-            <tr>
-              <th>标题</th>
-              <th>作者</th>
-              <th>内容</th>
-              <th>操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(item, index) in state.ly_list" :key="index">
-              <td class="table-title">✍️{{ item.title }}</td>
-              <td class="table-author">😺{{ item.author }}</td>
-              <td class="table-content">
-                <div class="content-cell">
-                  📄{{ getDisplayContent(item.content, index) }}
-                  <button v-if="needsExpand(item.content)"
-                          class="btn btn-link btn-sm expand-btn"
-                          @click="toggleExpand(index)">
-                    {{ expandedRows.has(index) ? '收起' : '展开' }}
-                  </button>
-                </div>
-              </td>
-              <td class="table-actions" v-if="hasEditPermission(item.author)">
-                <button class="btn btn-sm me-2" title="编辑" @click="editLyb(item)">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn btn-sm" title="删除" @click="deletelyb(item)">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+      <div class="lyb-list">
+        <div v-for="(item, index) in state.ly_list" :key="index" class="lyb-card">
+          <div class="lyb-card-header">
+            <span class="lyb-author">😺 {{ item.author }}</span>
+            <div class="lyb-actions" v-if="hasEditPermission(item.author)">
+              <button class="btn-icon" title="编辑" @click="editLyb(item)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn-icon" title="删除" @click="deletelyb(item)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+          <div class="lyb-content">
+            <p>{{ expandedRows.has(index) ? item.content : getDisplayContent(item.content, index) }}</p>
+            <button v-if="needsExpand(item.content)"
+                    class="btn-expand"
+                    @click="toggleExpand(index)">
+              {{ expandedRows.has(index) ? '收起' : '展开全文' }}
+            </button>
+          </div>
+        </div>
+        <div v-if="state.ly_list.length === 0" class="lyb-empty">
+          <i class="fas fa-comments"></i>
+          <p>暂无留言，快来添加第一条吧！</p>
         </div>
       </div>
     </div>
@@ -236,26 +229,20 @@ const pageSize = ref(10);
               <input type="hidden" v-model="state.lyb.url">
 
               <div class="form-group">
-                <label class="form-label" for="title"><i class="fas fa-heading"></i> 标题</label>
-                <input type="text" id="title" class="form-control" v-model="state.lyb.title" placeholder="请输入标题"
-                       required>
-              </div>
-
-              <div class="form-group">
                 <label class="form-label" for="author"><i class="fas fa-user"></i> 用户名</label>
                 <input type="text" id="author" class="form-control" v-model="state.lyb.author"
                        placeholder="请输入您的用户名" required>
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="content"><i class="fas fa-file-alt"></i> 内容</label>
+                <label class="form-label" for="content"><i class="fas fa-comment"></i> 留言内容</label>
                 <textarea id="content" class="form-control" v-model="state.lyb.content" rows="6"
-                          placeholder="请输入留言内容" required></textarea>
+                          placeholder="写下你的想法..." required></textarea>
               </div>
 
               <div class="form-group">
                 <button type="submit" class="submit-btn">
-                  <i class="fas fa-paper-plane"></i> 提交
+                  <i class="fas fa-paper-plane"></i> 提交留言
                 </button>
               </div>
             </form>
@@ -267,12 +254,12 @@ const pageSize = ref(10);
 </template>
 
 <style scoped>
-/* lyb.vue 组件特定样式 - 留言板布局 */
+/* lyb.vue 组件特定样式 - 卡片式留言板 */
 
 .lyb-container {
   display: flex;
-  gap: 20px;
-  padding: 20px;
+  gap: var(--spacing-xl);
+  padding: var(--spacing-xl);
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -297,33 +284,125 @@ const pageSize = ref(10);
   }
 }
 
-/* 表格样式 */
-.table-title {
-  max-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.table-author {
-  max-width: 100px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.table-content {
-  max-width: 300px;
-}
-
-.content-cell {
+/* 留言列表容器 */
+.lyb-list {
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
+  flex-direction: column;
+  gap: var(--spacing-md);
 }
 
-.table-actions {
-  white-space: nowrap;
+/* 留言卡片 - 磨砂玻璃风格 */
+.lyb-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--glass-shadow);
+  padding: var(--spacing-lg);
+  transition: all var(--transition-normal);
+}
+
+.lyb-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover-md);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 留言卡片头部 */
+.lyb-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.lyb-author {
+  font-weight: 600;
+  color: var(--md-sys-color-primary);
+  font-size: 1rem;
+}
+
+.lyb-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+/* 图标按钮 */
+.btn-icon {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: var(--md-sys-color-primary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.btn-icon:hover {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  transform: scale(1.1);
+}
+
+.btn-icon i {
+  font-size: 0.9rem;
+}
+
+/* 留言内容 */
+.lyb-content {
+  color: var(--md-sys-color-on-surface);
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+.lyb-content p {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* 展开按钮 */
+.btn-expand {
+  background: none;
+  border: none;
+  color: var(--md-sys-color-primary);
+  cursor: pointer;
+  padding: var(--spacing-xs) 0;
+  font-size: 0.875rem;
+  margin-top: var(--spacing-sm);
+  transition: all var(--transition-normal);
+  font-weight: 500;
+}
+
+.btn-expand:hover {
+  color: var(--md-sys-color-primary-container);
+  text-decoration: underline;
+}
+
+/* 空状态 */
+.lyb-empty {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.lyb-empty i {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.5;
+}
+
+.lyb-empty p {
+  margin: 0;
+  font-size: 1rem;
 }
 
 /* 表单样式 */
@@ -334,5 +413,10 @@ const pageSize = ref(10);
 .lyb-form input,
 .lyb-form textarea {
   width: 100%;
+}
+
+/* 确保 showcase 容器也有样式 */
+.showcase {
+  margin-bottom: var(--spacing-lg);
 }
 </style>

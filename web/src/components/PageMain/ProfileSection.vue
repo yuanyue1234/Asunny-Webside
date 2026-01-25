@@ -147,8 +147,85 @@ onMounted(() => {
 
 
 <style scoped>
-/* ProfileSection.vue 组件样式 */
-/* 所有样式已移至 styles.css 全局文件 */
-/* 如需覆盖全局样式，在此添加 scoped 样式即可 */
+
+/* user card 展示 */
+
+
+.name {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface);
+}
+
+.username {
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+
+hr {
+  border: none;
+  height: 1px;
+  background: var(--md-sys-color-surface-variant);
+  margin: 16px 0;
+}
+
+/* 头像 */
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin:5px auto;
+    border: 3px solid var(--md-sys-color-primary);
+    transition: transform 0.3s ease;
+}
+
+.avatar:hover {
+    transform: rotate(360deg);
+}
+
+
+
+.social-icon:hover {
+    color:var(--md-sys-color-on-primary-container); 
+}
+
+.clickable {
+  max-width: 100px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  cursor: pointer;
+  margin: 5px;
+  transition: transform 0.2s;
+  border-radius: 8px;
+}
+
+.clickable:hover {
+  transform: scale(1.05);
+}
+/* 动画效果 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.fade-in-up {
+    animation: fadeInUp var(--transition-normal) ease-out;
+}
+
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
 </style>
 
